@@ -623,7 +623,7 @@
         "playwright": "^1.52.0",
         "sharp": "^0.34.5",
         "ws": "^8.18.0",
-        "zustand": "^4.5.0"
+        "zustand": "^5.0.14"
     },
     "devDependencies": {
         "@types/node": "^20.19.30",
