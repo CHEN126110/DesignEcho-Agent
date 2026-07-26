@@ -630,7 +630,7 @@
         "@types/react": "^18.2.0",
         "@types/react-dom": "^18.2.0",
         "@types/ws": "^8.5.0",
-        "@vitejs/plugin-react": "^4.2.0",
+        "@vitejs/plugin-react": "^6.0.4",
         "@xyflow/react": "^12.11.2",
         "ajv": "^8.20.0",
         "autoprefixer": "^10.4.16",
