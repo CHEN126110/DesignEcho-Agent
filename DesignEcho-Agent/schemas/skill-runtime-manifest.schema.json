@@ -1,0 +1,383 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-agent.local/schemas/skill-runtime-manifest.schema.json",
+  "title": "Skill Runtime Manifest",
+  "$defs": {
+    "workModeContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_inputs",
+        "optional_inputs",
+        "delivery_outputs",
+        "exit_criteria"
+      ],
+      "properties": {
+        "required_inputs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "optional_inputs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "delivery_outputs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "exit_criteria": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "review_rubric_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "performance_profile": {
+          "$ref": "#/properties/performance_profile"
+        }
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "skill_id",
+    "version",
+    "task_type",
+    "required_inputs",
+    "input_sources",
+    "runtime_stages",
+    "read_scopes",
+    "write_scopes",
+    "available_tools",
+    "forbidden_tools",
+    "exit_criteria"
+  ],
+  "properties": {
+    "skill_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_.-]+$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "task_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "planning_role": {
+      "enum": ["artifact-owner", "method"]
+    },
+    "legacy_skill_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "required_inputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "optional_inputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "input_sources": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "enum": [
+            "user_goal",
+            "structured_input",
+            "attached_image",
+            "project_asset",
+            "selected_project_asset",
+            "project_product",
+            "project_sku",
+            "project_template",
+            "project_context",
+            "photoshop_document",
+            "photoshop_target"
+          ]
+        }
+      }
+    },
+    "reference_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "work_mode_requirements",
+        "allowed_sources",
+        "max_search_rounds",
+        "unavailable_behavior"
+      ],
+      "properties": {
+        "version": {
+          "const": "skill-reference-policy/v0"
+        },
+        "work_mode_requirements": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "create_new",
+            "redesign",
+            "template_fill",
+            "edit_existing",
+            "analyze_only",
+            "export_only"
+          ],
+          "properties": {
+            "create_new": { "enum": ["required", "reuse_or_optional", "not_required"] },
+            "redesign": { "enum": ["required", "reuse_or_optional", "not_required"] },
+            "template_fill": { "enum": ["required", "reuse_or_optional", "not_required"] },
+            "edit_existing": { "enum": ["required", "reuse_or_optional", "not_required"] },
+            "analyze_only": { "enum": ["required", "reuse_or_optional", "not_required"] },
+            "export_only": { "enum": ["required", "reuse_or_optional", "not_required"] }
+          }
+        },
+        "allowed_sources": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["user_reference", "brand_template", "project_case", "eagle", "web"]
+          }
+        },
+        "max_search_rounds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "unavailable_behavior": {
+          "enum": ["continue_degraded", "block"]
+        }
+      }
+    },
+    "performance_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "budget",
+        "verification_tier",
+        "cost_profile",
+        "vision_policy"
+      ],
+      "properties": {
+        "version": {
+          "const": "skill-runtime-performance-profile/v0"
+        },
+        "budget": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "max_model_calls",
+            "max_tool_calls",
+            "max_iterations",
+            "max_vision_candidates",
+            "max_visual_analyses",
+            "max_full_resolution_image_reads",
+            "soft_time_budget_ms"
+          ],
+          "properties": {
+            "max_model_calls": { "type": "integer", "minimum": 0 },
+            "max_tool_calls": { "type": "integer", "minimum": 0 },
+            "max_iterations": { "type": "integer", "minimum": 0 },
+            "max_vision_candidates": { "type": "integer", "minimum": 0 },
+            "max_visual_analyses": { "type": "integer", "minimum": 0 },
+            "max_full_resolution_image_reads": { "type": "integer", "minimum": 0 },
+            "soft_time_budget_ms": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "verification_tier": {
+          "enum": ["none", "metadata", "bounds", "screenshot", "manual"]
+        },
+        "cost_profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "model_call_class",
+            "photoshop_tool_class",
+            "image_processing_class",
+            "expected_latency",
+            "resource_risk"
+          ],
+          "properties": {
+            "model_call_class": {
+              "enum": ["none", "text-light", "text-heavy", "vision-light", "vision-heavy"]
+            },
+            "photoshop_tool_class": {
+              "enum": ["none", "read-only", "write-light", "write-heavy"]
+            },
+            "image_processing_class": {
+              "enum": ["none", "metadata-only", "bounded-vision", "pixel-probe", "heavy-local"]
+            },
+            "expected_latency": {
+              "enum": ["instant", "short", "medium", "long", "unknown"]
+            },
+            "resource_risk": {
+              "enum": ["low", "medium", "high"]
+            }
+          }
+        },
+        "vision_policy": {
+          "enum": ["disabled", "bounded"]
+        }
+      }
+    },
+    "work_mode_contracts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "create_new": { "$ref": "#/$defs/workModeContract" },
+        "redesign": { "$ref": "#/$defs/workModeContract" },
+        "template_fill": { "$ref": "#/$defs/workModeContract" },
+        "edit_existing": { "$ref": "#/$defs/workModeContract" },
+        "analyze_only": { "$ref": "#/$defs/workModeContract" },
+        "export_only": { "$ref": "#/$defs/workModeContract" }
+      }
+    },
+    "runtime_stages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "R0",
+          "R1",
+          "R2",
+          "R3",
+          "R4",
+          "E1",
+          "R5",
+          "E2"
+        ]
+      }
+    },
+    "required_model_profiles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "optional_model_profiles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "read_scopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "write_scopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "tool_namespaces": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "available_tools": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "forbidden_tools": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "knowledge_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "primary_method_tool_ref": {
+      "type": "string",
+      "pattern": "^tool:[A-Za-z0-9_.-]+$"
+    },
+    "memory_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "evaluation_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "policy_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "template_families": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "review_rubric_ref": {
+      "type": "string"
+    },
+    "delivery_outputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "exit_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

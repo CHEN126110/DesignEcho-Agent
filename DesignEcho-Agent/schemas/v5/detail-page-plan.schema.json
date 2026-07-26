@@ -1,0 +1,97 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://designecho.local/v5/detail-page-plan.schema.json",
+    "title": "DetailPagePlan（所有者 R4）",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["meta", "payload"],
+    "properties": {
+        "meta": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactMeta" },
+        "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "contextSnapshotRef",
+                "creativeStrategyRef",
+                "variantId",
+                "selectedTemplateFamily",
+                "canvas",
+                "globalRules",
+                "screens",
+                "missingInputs",
+                "planStatus"
+            ],
+            "properties": {
+                "contextSnapshotRef": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactRef" },
+                "creativeStrategyRef": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactRef" },
+                "variantId": { "type": "string" },
+                "selectedTemplateFamily": { "type": "string" },
+                "canvas": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["width", "unit", "targetScreenWidth", "defaultScreenHeight"],
+                    "properties": {
+                        "width": { "type": "number", "exclusiveMinimum": 0 },
+                        "unit": { "const": "px" },
+                        "targetScreenWidth": { "type": "number", "exclusiveMinimum": 0 },
+                        "defaultScreenHeight": { "type": "number", "exclusiveMinimum": 0 }
+                    }
+                },
+                "globalRules": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["gridColumns", "safeMarginRatio", "spacingScale", "readingDirection"],
+                    "properties": {
+                        "gridColumns": { "type": "integer", "exclusiveMinimum": 0 },
+                        "safeMarginRatio": { "type": "number", "minimum": 0, "maximum": 1 },
+                        "spacingScale": { "type": "array", "items": { "type": "number" } },
+                        "readingDirection": { "const": "top_to_bottom" }
+                    }
+                },
+                "screens": { "type": "array", "items": { "$ref": "#/$defs/detailPageScreen" } },
+                "missingInputs": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/missingInput" } },
+                "planStatus": { "type": "string", "enum": ["draft", "ready_for_preview", "blocked_missing_input"] }
+            }
+        }
+    },
+    "$defs": {
+        "detailPageScreen": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["screenId", "order", "moduleType", "intent", "priority", "copy", "images", "elements", "layout", "sourceRefs", "constraints", "missingInputs"],
+            "properties": {
+                "screenId": { "type": "string" },
+                "order": { "type": "integer", "minimum": 0 },
+                "moduleType": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/moduleType" },
+                "intent": { "type": "string" },
+                "priority": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/modulePriority" },
+                "copy": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["title"],
+                    "properties": {
+                        "title": { "type": "string" },
+                        "subtitle": { "type": "string" },
+                        "body": { "type": "string" },
+                        "tags": { "type": "array", "items": { "type": "string" } }
+                    }
+                },
+                "images": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/imageSlotPlan" } },
+                "elements": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/elementPlan" } },
+                "layout": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["compositionType", "normalizedRegions", "readingOrder"],
+                    "properties": {
+                        "compositionType": { "type": "string" },
+                        "normalizedRegions": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/layoutRegion" } },
+                        "readingOrder": { "type": "array", "items": { "type": "string" } }
+                    }
+                },
+                "sourceRefs": { "type": "array", "items": { "type": "string" } },
+                "constraints": { "type": "array", "items": { "type": "string" } },
+                "missingInputs": { "type": "array", "items": { "type": "string" } }
+            }
+        }
+    }
+}

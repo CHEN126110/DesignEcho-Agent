@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DesignEcho</title>
+    <!-- 不加载外部字体，避免 UXP WebView 在 Photoshop 中加载字体时干扰文字引擎（80ca06.156） -->
+    <style>
+        /* 启动加载界面样式 */
+        :root {
+            --bg-primary: #0d0d14;
+            --bg-secondary: #1a1a24;
+            --accent-primary: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--bg-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            overflow: hidden;
+        }
+        
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+        
+        #splash-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .splash-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, #8b5cf6 50%, #a855f7 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            box-shadow: 0 0 60px var(--accent-glow);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 40px var(--accent-glow);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 80px var(--accent-glow);
+                transform: scale(1.02);
+            }
+        }
+        
+        .splash-title {
+            margin-top: 24px;
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            letter-spacing: -0.5px;
+        }
+        
+        .splash-subtitle {
+            margin-top: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .splash-loader {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .splash-progress {
+            width: 200px;
+            height: 4px;
+            background: var(--bg-secondary);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .splash-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary), #8b5cf6);
+            border-radius: 2px;
+            animation: progress-animation 2s ease-in-out infinite;
+            width: 30%;
+        }
+        
+        @keyframes progress-animation {
+            0% {
+                transform: translateX(-100%);
+            }
+            50% {
+                transform: translateX(200%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        
+        .splash-status {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-family: ui-monospace, 'Cascadia Code', 'Consolas', monospace;
+            animation: status-blink 1s ease-in-out infinite;
+        }
+        
+        @keyframes status-blink {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        .splash-tips {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+        
+        .splash-tips-title {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        .splash-tip {
+            font-size: 13px;
+            color: var(--text-primary);
+            opacity: 0.8;
+        }
+        
+        /* 隐藏 root 直到加载完成 */
+        #root:empty {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 启动加载界面 -->
+    <div id="splash-screen">
+        <div class="splash-logo">DE</div>
+        <h1 class="splash-title">DesignEcho</h1>
+        <p class="splash-subtitle">AI 驱动的设计助手</p>
+        
+        <div class="splash-loader">
+            <div class="splash-progress">
+                <div class="splash-progress-bar"></div>
+            </div>
+            <span class="splash-status" id="splash-status">正在初始化...</span>
+        </div>
+        
+        <div class="splash-tips">
+            <div class="splash-tips-title">提示</div>
+            <p class="splash-tip" id="splash-tip">智能抠图支持本地模型，完全免费且保护隐私</p>
+        </div>
+    </div>
+    
+    <!-- React 应用根节点 -->
+    <div id="root"></div>
+    
+    <script>
+        // 启动提示轮播
+        const tips = [
+            '智能抠图支持本地模型，完全免费且保护隐私',
+            '按住 Shift 可以批量选择多个图层进行操作',
+            '使用快捷键 Ctrl+Shift+D 快速打开 DesignEcho',
+            '支持连接到 Photoshop 进行实时设计辅助',
+            '本地模型无需联网，离线也能使用'
+        ];
+        let tipIndex = 0;
+        
+        const tipElement = document.getElementById('splash-tip');
+        const statusElement = document.getElementById('splash-status');
+        
+        // 每 3 秒切换提示
+        setInterval(() => {
+            tipIndex = (tipIndex + 1) % tips.length;
+            if (tipElement) {
+                tipElement.style.opacity = '0';
+                setTimeout(() => {
+                    tipElement.textContent = tips[tipIndex];
+                    tipElement.style.opacity = '0.8';
+                }, 200);
+            }
+        }, 3000);
+        
+        // 更新加载状态
+        const statuses = [
+            '正在初始化...',
+            '加载核心模块...',
+            '连接服务...',
+            '准备就绪...'
+        ];
+        let statusIndex = 0;
+        
+        const statusInterval = setInterval(() => {
+            if (statusIndex < statuses.length - 1) {
+                statusIndex++;
+                if (statusElement) {
+                    statusElement.textContent = statuses[statusIndex];
+                }
+            }
+        }, 800);
+        
+        // 监听 React 应用加载完成
+        const observer = new MutationObserver((mutations) => {
+            const root = document.getElementById('root');
+            if (root && root.children.length > 0) {
+                // React 已加载，隐藏启动界面
+                clearInterval(statusInterval);
+                const splash = document.getElementById('splash-screen');
+                if (splash) {
+                    splash.classList.add('hidden');
+                    setTimeout(() => {
+                        splash.remove();
+                    }, 500);
+                }
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.getElementById('root'), {
+            childList: true,
+            subtree: true
+        });
+        
+        // 安全超时：5秒后处理 splash。
+        // 关键修复：若 React 仍未挂载（#root 空），不要直接移除 splash 露出与背景同色的纯黑屏，
+        // 而是保留 splash 并切到可读提示，避免"内容区全黑、无任何反馈"的黑屏体验。
+        setTimeout(() => {
+            const splash = document.getElementById('splash-screen');
+            if (!splash || splash.classList.contains('hidden')) return;
+            const root = document.getElementById('root');
+            if (root && root.children.length > 0) {
+                // React 已挂载，正常隐藏
+                splash.classList.add('hidden');
+                setTimeout(() => splash.remove(), 500);
+            } else {
+                // React 仍未挂载：保留 splash 但切到可读提示，不露黑屏
+                clearInterval(statusInterval);
+                if (statusElement) {
+                    statusElement.textContent = '启动较慢或遇到问题，请再稍候，或关闭后重新打开应用…';
+                }
+            }
+        }, 5000);
+    </script>
+    
+    <script type="module" src="/main.tsx"></script>
+</body>
+</html>

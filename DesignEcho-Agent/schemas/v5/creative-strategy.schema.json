@@ -1,0 +1,123 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://designecho.local/v5/creative-strategy.schema.json",
+    "title": "CreativeStrategy（所有者 R3）",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["meta", "payload"],
+    "properties": {
+        "meta": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactMeta" },
+        "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "contextSnapshotRef",
+                "objective",
+                "messageArchitecture",
+                "contentModules",
+                "copyDirection",
+                "visualDirection",
+                "referenceTransfer",
+                "variants",
+                "constraints",
+                "missingInputs"
+            ],
+            "properties": {
+                "contextSnapshotRef": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactRef" },
+                "objective": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["primaryGoal", "secondaryGoals", "targetAudienceSummary"],
+                    "properties": {
+                        "primaryGoal": { "type": "string" },
+                        "secondaryGoals": { "type": "array", "items": { "type": "string" } },
+                        "targetAudienceSummary": { "type": "string" }
+                    }
+                },
+                "messageArchitecture": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["primaryMessage", "supportingMessages", "supportingFacts", "objectionsToResolve"],
+                    "properties": {
+                        "primaryMessage": { "type": "string" },
+                        "supportingMessages": { "type": "array", "items": { "type": "string" } },
+                        "supportingFacts": { "type": "array", "items": { "type": "string" } },
+                        "objectionsToResolve": { "type": "array", "items": { "type": "string" } }
+                    }
+                },
+                "contentModules": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["moduleId", "moduleType", "priority", "intent", "keyMessage", "sourceRefs"],
+                        "properties": {
+                            "moduleId": { "type": "string" },
+                            "moduleType": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/moduleType" },
+                            "priority": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/modulePriority" },
+                            "intent": { "type": "string" },
+                            "keyMessage": { "type": "string" },
+                            "sourceRefs": { "type": "array", "items": { "type": "string" } }
+                        }
+                    }
+                },
+                "copyDirection": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["toneKeywords", "headlineOptions", "subtitleOptions", "tagOptions", "prohibitedClaims"],
+                    "properties": {
+                        "toneKeywords": { "type": "array", "items": { "type": "string" } },
+                        "headlineOptions": { "type": "array", "items": { "type": "string" } },
+                        "subtitleOptions": { "type": "array", "items": { "type": "string" } },
+                        "tagOptions": { "type": "array", "items": { "type": "string" } },
+                        "prohibitedClaims": { "type": "array", "items": { "type": "string" } }
+                    }
+                },
+                "visualDirection": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["moodKeywords", "paletteIntent", "typographyIntent", "compositionIntent", "imageTreatment", "density"],
+                    "properties": {
+                        "moodKeywords": { "type": "array", "items": { "type": "string" } },
+                        "paletteIntent": { "type": "array", "items": { "type": "string" } },
+                        "typographyIntent": { "type": "array", "items": { "type": "string" } },
+                        "compositionIntent": { "type": "array", "items": { "type": "string" } },
+                        "imageTreatment": { "type": "array", "items": { "type": "string" } },
+                        "density": { "type": "string", "enum": ["low", "medium", "high"] }
+                    }
+                },
+                "referenceTransfer": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["referenceId", "borrow", "avoid", "adaptationNotes"],
+                        "properties": {
+                            "referenceId": { "type": "string" },
+                            "borrow": { "type": "array", "items": { "type": "string" } },
+                            "avoid": { "type": "array", "items": { "type": "string" } },
+                            "adaptationNotes": { "type": "array", "items": { "type": "string" } }
+                        }
+                    }
+                },
+                "variants": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["variantId", "label", "intent"],
+                        "properties": {
+                            "variantId": { "type": "string" },
+                            "label": { "type": "string" },
+                            "intent": { "type": "string" },
+                            "messageOverride": { "type": "string" },
+                            "visualOverride": { "type": "array", "items": { "type": "string" } }
+                        }
+                    }
+                },
+                "constraints": { "type": "array", "items": { "type": "string" } },
+                "missingInputs": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/missingInput" } }
+            }
+        }
+    }
+}

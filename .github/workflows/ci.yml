@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repository-safety:
+    name: Public repository safety
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/check-public-repo-safety.cjs
+
+  agent:
+    name: Agent build and contracts
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: DesignEcho-Agent
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: DesignEcho-Agent/package-lock.json
+      - run: npm ci --ignore-scripts
+      - run: npm run build:typecheck:renderer
+      - run: npm run audit:tools
+      - run: npm run audit:executor-generic
+      - run: npm run smoke:design-discipline-runtime
+      - run: npm run smoke:agent:run-record
+
+  uxp:
+    name: UXP production build
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: DesignEcho-UXP
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: DesignEcho-UXP/package-lock.json
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+
+  browser-extension:
+    name: Browser extension manifest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node -e "JSON.parse(require('fs').readFileSync('DesignEcho-Browser-Extension/manifest.json','utf8')); console.log('manifest valid')"

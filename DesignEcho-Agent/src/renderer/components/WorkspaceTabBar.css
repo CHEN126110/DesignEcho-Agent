@@ -1,0 +1,172 @@
+.workspace-tab-bar {
+    display: flex;
+    min-width: 0;
+    height: 100%;
+    align-items: flex-end;
+    gap: 4px;
+    -webkit-app-region: no-drag;
+}
+
+.workspace-tab-list {
+    display: flex;
+    min-width: 0;
+    align-items: flex-end;
+    gap: 3px;
+}
+
+.workspace-tab {
+    display: flex;
+    width: 148px;
+    height: 34px;
+    min-width: 92px;
+    max-width: 180px;
+    align-items: center;
+    border: 1px solid transparent;
+    border-bottom: 0;
+    border-radius: 8px 8px 0 0;
+    background: transparent;
+    color: var(--de-text-muted);
+}
+
+.workspace-tab:hover {
+    background: var(--de-hover-bg);
+    color: var(--de-text-secondary);
+}
+
+.workspace-tab.active {
+    border-color: var(--de-border);
+    background: var(--de-bg-light);
+    color: var(--de-text-primary);
+}
+
+.workspace-tab-activate {
+    display: flex;
+    min-width: 0;
+    height: 100%;
+    padding: 0 8px 0 11px;
+    align-items: center;
+    flex: 1;
+    gap: 7px;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.workspace-tab-activate span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.workspace-tab-activate:focus-visible,
+.workspace-tab-close:focus-visible,
+.workspace-tab-add-button:focus-visible,
+.workspace-tab-menu button:focus-visible {
+    outline: 2px solid var(--de-primary);
+    outline-offset: -2px;
+}
+
+.workspace-tab-close {
+    display: inline-flex;
+    width: 26px;
+    height: 26px;
+    margin-right: 4px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--de-text-muted);
+    cursor: pointer;
+}
+
+.workspace-tab-close:hover {
+    background: var(--de-hover-bg);
+    color: var(--de-text-primary);
+}
+
+.workspace-tab-add {
+    position: relative;
+    display: flex;
+    height: 34px;
+    align-items: center;
+}
+
+.workspace-tab-add-button {
+    display: inline-flex;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--de-text-muted);
+    cursor: pointer;
+}
+
+.workspace-tab-add-button:hover,
+.workspace-tab-add-button[aria-expanded="true"] {
+    background: var(--de-hover-bg);
+    color: var(--de-text-primary);
+}
+
+.workspace-tab-menu {
+    position: absolute;
+    top: 38px;
+    left: 0;
+    z-index: 120;
+    width: 230px;
+    padding: 6px;
+    border: 1px solid var(--de-border);
+    border-radius: 10px;
+    background: var(--de-bg-card);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
+}
+
+.workspace-tab-menu button {
+    display: flex;
+    width: 100%;
+    padding: 9px 10px;
+    align-items: center;
+    gap: 10px;
+    border: 0;
+    border-radius: 7px;
+    outline: none;
+    background: transparent;
+    color: var(--de-text-primary);
+    cursor: pointer;
+    text-align: left;
+}
+
+.workspace-tab-menu button:hover {
+    background: var(--de-hover-bg);
+}
+
+.workspace-tab-menu button > span {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.workspace-tab-menu strong {
+    font-size: 11px;
+    font-weight: 550;
+}
+
+.workspace-tab-menu small {
+    color: var(--de-text-muted);
+    font-size: 9.5px;
+}
+
+@media (max-width: 820px) {
+    .workspace-tab {
+        width: 112px;
+    }
+}

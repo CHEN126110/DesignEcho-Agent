@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-agent.local/schemas/workflow-run.schema.json",
+  "title": "Workflow Run",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "workflow_run_id",
+    "project_id",
+    "skill_id",
+    "status",
+    "current_stage",
+    "stage_history",
+    "capability_status",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "workflow_run_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "skill_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "created",
+        "running",
+        "waiting_user",
+        "revision_required",
+        "blocked_external_dependency",
+        "manual_verification_pending",
+        "cancelled",
+        "failed",
+        "completed"
+      ]
+    },
+    "current_stage": {
+      "enum": [
+        "briefing",
+        "context_analysis",
+        "creative_strategy",
+        "layout_planning",
+        "preview_generation",
+        "quality_review",
+        "awaiting_user_selection",
+        "sandbox_queued",
+        "sandbox_executing",
+        "sandbox_ready",
+        "awaiting_apply_confirmation",
+        "applied",
+        "delivered",
+        "archived"
+      ]
+    },
+    "stage_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "stage",
+          "status",
+          "entered_at"
+        ],
+        "properties": {
+          "stage": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "pending",
+              "running",
+              "passed",
+              "failed",
+              "skipped",
+              "blocked"
+            ]
+          },
+          "entered_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "exited_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "component_id": {
+            "type": "string"
+          },
+          "artifact_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "capability_status": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          "real",
+          "mock",
+          "fallback",
+          "not_implemented",
+          "blocked_external_dependency",
+          "manual_verification_pending"
+        ]
+      }
+    },
+    "rollback_target": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

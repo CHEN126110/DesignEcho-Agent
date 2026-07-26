@@ -1,0 +1,134 @@
+body {
+  width: 300px;
+  margin: 0;
+  padding: 14px 16px;
+  font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+  font-size: 13px;
+  color: #1f2433;
+  background: #f7f8fa;
+}
+
+header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.version {
+  color: #8a8f9d;
+  font-size: 11px;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-green { background: #2eb872; }
+.dot-gray { background: #b0b4bf; }
+.dot-red { background: #e5484d; }
+
+.meta {
+  color: #5a6072;
+  margin-bottom: 4px;
+  word-break: break-all;
+}
+
+.error {
+  margin: 8px 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: #fdecec;
+  color: #b3261e;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+.hidden { display: none; }
+
+.settings {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e3e5ea;
+}
+
+.settings label {
+  display: block;
+  margin-bottom: 4px;
+  color: #5a6072;
+}
+
+.settings input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  padding: 6px 8px;
+  border: 1px solid #d4d7de;
+  border-radius: 6px;
+  font-size: 13px;
+  background: #fff;
+}
+
+.settings input:focus {
+  outline: none;
+  border-color: #4a6cf7;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  flex: 1;
+  padding: 7px 0;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  background: #1f2433;
+  color: #fff;
+}
+
+button:hover { background: #2e3448; }
+
+button.secondary {
+  background: #e8eaef;
+  color: #1f2433;
+}
+
+button.secondary:hover { background: #dcdfe6; }
+
+.hint {
+  margin-top: 8px;
+  min-height: 16px;
+  color: #2eb872;
+}
+
+.hint.warn { color: #b3261e; }
+
+footer {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #e3e5ea;
+  color: #8a8f9d;
+  font-size: 11px;
+  line-height: 1.5;
+}

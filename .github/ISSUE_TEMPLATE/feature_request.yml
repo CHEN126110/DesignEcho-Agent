@@ -1,0 +1,41 @@
+name: 功能建议
+description: 提议新的能力、工作流或维护改进
+title: "[Feature] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 要解决的问题
+      description: 描述用户目标，不要只描述一个按钮或固定流程。
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 建议方案
+    validations:
+      required: true
+  - type: dropdown
+    id: capability
+    attributes:
+      label: 主要能力层
+      options:
+        - Agent / Harness
+        - Knowledge
+        - Skill
+        - Tool / Photoshop
+        - Memory
+        - Evaluation
+        - Policy / Security
+        - UI / Interaction
+        - Unsure
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 验收标准
+      description: 如何判断目标真正完成？
+    validations:
+      required: true

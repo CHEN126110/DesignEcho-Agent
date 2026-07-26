@@ -1,0 +1,343 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== 主题变量 ===== */
+
+/* 深色主题（默认） */
+:root,
+[data-theme="dark"] {
+    --de-primary: #3b82f6;
+    --de-primary-glow: rgba(59, 130, 246, 0.42);
+    --de-success: #4ade80;
+    --de-warning: #fbbf24;
+    --de-error: #f87171;
+    --de-bg: #0e1013;
+    --de-bg-dark: #0a0c0f;
+    --de-bg-light: #15171b;
+    --de-bg-card: #14171c;
+    --de-border: rgba(255, 255, 255, 0.1);
+    --de-border-subtle: rgba(255, 255, 255, 0.065);
+    --de-text: #f3f4f6;
+    --de-text-primary: var(--de-text);
+    --de-text-secondary: rgba(255, 255, 255, 0.56);
+    --de-text-muted: rgba(255, 255, 255, 0.34);
+    --de-shadow: rgba(0, 0, 0, 0.34);
+    --de-primary-dim: rgba(59, 130, 246, 0.14);
+    --de-thinking-active: #8fbdff;
+    --de-thinking-active-bg: rgba(59, 130, 246, 0.14);
+    --de-danger: var(--de-error);
+    --de-danger-rgb: 231, 76, 60;
+    /* 深色主题专用 */
+    --de-hover-bg: rgba(255, 255, 255, 0.05);
+    --de-user-bubble-bg: var(--de-primary);
+    --de-user-bubble-text: #ffffff;
+    --de-avatar-bg: rgba(255, 255, 255, 0.05);
+}
+
+/* 浅色主题 */
+[data-theme="light"] {
+    --de-primary: #0066ff;
+    --de-primary-glow: rgba(0, 102, 255, 0.2);
+    --de-success: #27ae60;
+    --de-warning: #e67e22;
+    --de-error: #c0392b;
+    --de-bg: #f7f7f8;
+    --de-bg-dark: #eef0f3;
+    --de-bg-light: #ffffff;
+    --de-bg-card: #ffffff;
+    --de-border: #e5e5e5;
+    --de-text: #1a1a1a;
+    --de-text-primary: var(--de-text);
+    --de-text-secondary: #6b6b6b;
+    --de-text-muted: #8a8a8a;
+    --de-shadow: rgba(0, 0, 0, 0.08);
+    --de-primary-dim: rgba(0, 102, 255, 0.12);
+    --de-thinking-active: #2563eb;
+    --de-thinking-active-bg: #eff6ff;
+    --de-danger: var(--de-error);
+    --de-danger-rgb: 192, 57, 43;
+    /* 浅色主题专用 */
+    --de-hover-bg: rgba(0, 0, 0, 0.04);
+    --de-user-bubble-bg: #e3f2fd;
+    --de-user-bubble-text: #1a1a1a;
+    --de-avatar-bg: #f0f0f0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--de-bg);
+    color: var(--de-text);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== 应用容器 ===== */
+.app-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ===== 背景 ===== */
+.app-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--de-bg);
+}
+
+/* ===== 主布局 ===== */
+.app-layout {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.app-main {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.app-main-loading {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    background: #0e1013;
+}
+
+/* ===== 视图导航栏 ===== */
+.view-nav {
+    display: flex;
+    gap: 4px;
+    padding: 8px 16px;
+    background: var(--de-bg-card);
+    border-bottom: 1px solid var(--de-border);
+}
+
+.view-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    color: var(--de-text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.view-nav-btn:hover {
+    background: var(--de-hover-bg, rgba(0, 0, 0, 0.05));
+    color: var(--de-text);
+}
+
+.view-nav-btn.active {
+    background: var(--de-primary);
+    color: white;
+}
+
+.view-nav-btn .badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.view-nav-divider {
+    width: 1px;
+    height: 24px;
+    background: var(--de-border);
+    margin: 0 8px;
+    align-self: center;
+}
+
+.view-nav-btn.highlight {
+    background: linear-gradient(135deg, rgba(0, 102, 255, 0.2), rgba(102, 0, 255, 0.2));
+    border: 1px solid rgba(0, 102, 255, 0.3);
+}
+
+.view-nav-btn.highlight:hover {
+    background: linear-gradient(135deg, rgba(0, 102, 255, 0.3), rgba(102, 0, 255, 0.3));
+}
+
+.view-nav-btn.highlight.active {
+    background: linear-gradient(135deg, #0066ff, #6600ff);
+    border-color: transparent;
+}
+
+/* ===== 滚动条 ===== */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--de-border);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3a3a4a;
+}
+
+/* ===== 按钮基础样式 ===== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    outline: none;
+}
+
+.btn-primary {
+    background: var(--de-primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0055dd;
+    box-shadow: 0 0 20px var(--de-primary-glow);
+}
+
+.btn-secondary {
+    background: var(--de-bg-light);
+    color: var(--de-text);
+    border: 1px solid var(--de-border);
+}
+
+.btn-secondary:hover {
+    background: var(--de-bg-card);
+    border-color: var(--de-primary);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--de-text-secondary);
+}
+
+.btn-ghost:hover {
+    background: var(--de-bg-light);
+    color: var(--de-text);
+}
+
+/* ===== 输入框 ===== */
+.input {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--de-bg);
+    border: 1px solid var(--de-border);
+    border-radius: 8px;
+    color: var(--de-text);
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--de-primary);
+    box-shadow: 0 0 0 3px var(--de-primary-glow);
+}
+
+.input::placeholder {
+    color: var(--de-text-secondary);
+}
+
+/* ===== 卡片 ===== */
+.card {
+    background: var(--de-bg-card);
+    border: 1px solid var(--de-border);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.card-hover:hover {
+    border-color: var(--de-primary);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== 动画 ===== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+}
+
+.animate-pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ===== 状态指示器 ===== */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.status-dot.connected {
+    background: var(--de-success);
+    box-shadow: 0 0 8px var(--de-success);
+}
+
+.status-dot.disconnected {
+    background: var(--de-error);
+}
+
+.status-dot.connecting {
+    background: var(--de-warning);
+    animation: pulse 1s infinite;
+}
+
+/* ===== SKU 知识库面板 ===== */

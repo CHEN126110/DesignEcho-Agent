@@ -1,0 +1,31 @@
+{
+  "markerPrefix": "测试样本：",
+  "footer": "未调用真实模型或 Photoshop。",
+  "fallbackResponse": "当前测试样本没有匹配到专用规则；本轮只验证对话路径。",
+  "responses": [
+    {
+      "id": "response-presentation",
+      "response": "\n## 模板结构说明\n\n这个详情页模板包含以下标准模块：\n\n### 1. 首屏区域\n\n- 品牌标识与大促横幅\n- 产品主图轮播展示\n- 价格体系与促销标签\n\n### 2. 核心卖点区\n\n- 四个图标展示核心优势\n- 简洁有力的卖点文案\n\n### 3. 场景展示区\n\n- 生活化场景图\n- 展示产品实际使用情境\n\n### 4. 细节展示区\n\n- 多角度产品特写\n- 材质工艺展示与尺寸标注\n\n---\n\n这个结构可以根据实际产品替换图片和文案。"
+    },
+    {
+      "id": "sku-understanding-no-tool",
+      "response": "我的理解是你想做 SKU 相关产出；本轮只说明理解，不会改动 Photoshop 画面。"
+    },
+    {
+      "id": "sku-capability-answer",
+      "response": "能做，SKU 这块我会按组合图和自选备注来理解。"
+    },
+    {
+      "id": "model-identity-answer",
+      "response": "我是 DesignEcho 当前接入的对话模型；这次只回答身份问题，不读取或改动画面。"
+    },
+    {
+      "id": "detail-page-split-explainer",
+      "response": "详情页分屏是为了把卖点、场景、细节和购买理由分段讲清楚，让用户滑动时更容易抓住信息层级；这次只回答问题，不改动画面。"
+    },
+    {
+      "id": "greeting",
+      "response": "你好，我在。你可以直接说要查看、设计或调整的内容；如果只是聊天，我会先回答，不改动画面。"
+    }
+  ]
+}

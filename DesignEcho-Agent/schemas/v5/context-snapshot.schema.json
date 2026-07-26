@@ -1,0 +1,64 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://designecho.local/v5/context-snapshot.schema.json",
+    "title": "ContextSnapshot（所有者 R2）",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["meta", "payload"],
+    "properties": {
+        "meta": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactMeta" },
+        "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["briefRef", "product", "assets", "audience", "market", "constraints", "missingInputs", "assumptions"],
+            "properties": {
+                "briefRef": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactRef" },
+                "product": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["facts", "visibleFeatures"],
+                    "properties": {
+                        "category": { "type": "string" },
+                        "name": { "type": "string" },
+                        "facts": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/contextFact" } },
+                        "visibleFeatures": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/contextFact" } }
+                    }
+                },
+                "assets": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/assetContext" } },
+                "audience": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["segments", "needs", "painPoints", "purchaseObjections"],
+                    "properties": {
+                        "segments": { "type": "array", "items": { "type": "string" } },
+                        "needs": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/contextFact" } },
+                        "painPoints": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/contextFact" } },
+                        "purchaseObjections": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/contextFact" } }
+                    }
+                },
+                "market": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["expressionPatterns", "opportunitySignals"],
+                    "properties": {
+                        "expressionPatterns": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/contextFact" } },
+                        "opportunitySignals": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/contextFact" } }
+                    }
+                },
+                "constraints": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["requiredElements", "forbiddenElements", "platformRules", "brandRules"],
+                    "properties": {
+                        "requiredElements": { "type": "array", "items": { "type": "string" } },
+                        "forbiddenElements": { "type": "array", "items": { "type": "string" } },
+                        "platformRules": { "type": "array", "items": { "type": "string" } },
+                        "brandRules": { "type": "array", "items": { "type": "string" } }
+                    }
+                },
+                "missingInputs": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/missingInput" } },
+                "assumptions": { "type": "array", "items": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/assumption" } }
+            }
+        }
+    }
+}

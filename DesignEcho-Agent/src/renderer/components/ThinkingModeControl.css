@@ -1,0 +1,91 @@
+.thinking-mode-control {
+    position: relative;
+    display: inline-flex;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+}
+
+.thinking-mode-control-button {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 8px;
+    outline: none;
+    background: transparent;
+    color: var(--de-text-secondary);
+    cursor: pointer;
+    transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease;
+}
+
+.thinking-mode-control-button:hover {
+    background: var(--de-hover-bg);
+    color: var(--de-text-primary);
+}
+
+.thinking-mode-control-button.active {
+    background: var(--de-thinking-active-bg);
+    color: var(--de-thinking-active);
+}
+
+.thinking-mode-control-button:focus-visible {
+    box-shadow: 0 0 0 2px var(--de-bg), 0 0 0 4px var(--de-primary);
+}
+
+.thinking-mode-tooltip {
+    position: absolute;
+    left: 50%;
+    z-index: 80;
+    display: flex;
+    width: 208px;
+    padding: 8px 12px;
+    flex-direction: column;
+    gap: 3px;
+    border-radius: 8px;
+    background: #18181b;
+    color: #fff;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(2px);
+    transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.thinking-mode-tooltip.direction-up {
+    bottom: calc(100% + 8px);
+}
+
+.thinking-mode-tooltip.direction-down {
+    top: calc(100% + 8px);
+}
+
+.thinking-mode-tooltip strong {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.thinking-mode-tooltip span {
+    color: #d4d4d8;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.thinking-mode-control:hover .thinking-mode-tooltip,
+.thinking-mode-control:focus-within .thinking-mode-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .thinking-mode-control-button,
+    .thinking-mode-tooltip {
+        transition: none;
+    }
+}

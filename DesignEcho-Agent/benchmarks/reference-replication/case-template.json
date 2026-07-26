@@ -1,0 +1,70 @@
+{
+  "id": "rr-001",
+  "name": "示例：单屏电商海报",
+  "status": "pending",
+  "referenceImage": {
+    "path": "",
+    "description": ""
+  },
+  "scenario": {
+    "category": "poster-layout",
+    "source": {
+      "providedBy": "unknown",
+      "capturedAt": "",
+      "boundary": "Unknown source cannot support a design-quality claim."
+    },
+    "notes": ""
+  },
+  "execution": {
+    "visionModel": "",
+    "logicModel": "",
+    "autoCreateDocument": true,
+    "templateApply": false
+  },
+  "outputs": {
+    "documentName": "",
+    "resultScreenshot": "",
+    "notes": ""
+  },
+  "score": {
+    "structure": null,
+    "placement": null,
+    "textHierarchy": null,
+    "editability": null,
+    "overall": null
+  },
+  "verification": {
+    "buildVerified": false,
+    "manualVerified": false,
+    "reviewedAt": "",
+    "reviewer": ""
+  },
+  "acceptance": {
+    "requiredEvidence": [
+      "editable-text-layers",
+      "bounds-qa",
+      "screenshot-pixel-probe",
+      "manual-review"
+    ],
+    "mustRemainEditable": true,
+    "boundsQa": {
+      "minOkRatio": 0.8,
+      "maxMismatch": 0,
+      "maxUnverified": 0
+    },
+    "screenshotPixelProbe": {
+      "enabled": true,
+      "targetSize": {
+        "width": 460,
+        "height": 460
+      },
+      "thresholds": {
+        "maxMae": 35,
+        "maxHighDeltaRatio": 0.25,
+        "minDarkJaccard": 0.45
+      },
+      "boundary": "Pixel probe is diagnostic evidence only. It does not prove high-fidelity design quality.",
+      "rawImagesRedacted": true
+    }
+  }
+}

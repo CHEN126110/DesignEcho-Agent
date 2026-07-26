@@ -1,0 +1,33 @@
+{
+  "suite": "reference-replication",
+  "version": 1,
+  "status": "active",
+  "template": "case-template.json",
+  "caseDirectory": "cases",
+  "cases": [
+    {
+      "id": "rr-002-neutral-quality-card-text-layout",
+      "name": "中性品质检验卡文本排版复刻",
+      "status": "reference_captured",
+      "file": "cases/rr-002-neutral-quality-card-text-layout.json"
+    },
+    {
+      "id": "rr-003-synthetic-poster-layout",
+      "name": "合成海报版式复刻种子",
+      "status": "reference_captured",
+      "file": "cases/rr-003-synthetic-poster-layout.json"
+    },
+    {
+      "id": "rr-004-synthetic-ecommerce-detail-hero",
+      "name": "合成详情页首屏复刻种子",
+      "status": "reference_captured",
+      "file": "cases/rr-004-synthetic-ecommerce-detail-hero.json"
+    },
+    {
+      "id": "rr-005-synthetic-main-image-layout",
+      "name": "合成主图版式复刻种子",
+      "status": "reference_captured",
+      "file": "cases/rr-005-synthetic-main-image-layout.json"
+    }
+  ]
+}

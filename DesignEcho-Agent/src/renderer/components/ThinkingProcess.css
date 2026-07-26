@@ -1,0 +1,323 @@
+.thinking-simple {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    padding: 14px 16px;
+    font-size: 13px;
+    background: var(--de-bg-card);
+    border: 1px solid var(--de-border);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    width: 100%;
+    inline-size: 100%;
+    min-width: 0;
+    min-inline-size: 0;
+    max-width: 100%;
+    max-inline-size: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.live-activity-placeholder {
+    width: 100%;
+    inline-size: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-inline-size: 0;
+    max-width: 100%;
+    max-inline-size: 100%;
+    overflow-x: hidden;
+}
+
+/* ── 头部 ── */
+.pondering-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 12.5px;
+    color: var(--de-text-secondary);
+    min-width: 0;
+    min-inline-size: 0;
+    max-width: 100%;
+    max-inline-size: 100%;
+    box-sizing: border-box;
+}
+
+.pondering-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--de-text-secondary) 72%, transparent);
+    animation: pulse-dot 1.5s ease-in-out infinite;
+    flex: 0 0 auto;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.pondering-title {
+    font-weight: 600;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--de-text);
+}
+
+.pondering-count {
+    flex: 0 0 auto;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    font-size: 11px;
+    line-height: 1;
+    color: var(--de-text-secondary);
+    background: color-mix(in srgb, var(--de-text-secondary) 10%, transparent);
+}
+
+.live-activity-placeholder .pondering-header {
+    margin-bottom: 0;
+}
+
+.live-activity-placeholder .pondering-title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.5;
+}
+
+.pondering-dots {
+    animation: dots 1.5s infinite;
+}
+
+@keyframes dots {
+    0%, 20% { opacity: 0.3; }
+    40% { opacity: 0.6; }
+    60%, 100% { opacity: 1; }
+}
+
+/* ── 步骤时间线 ── */
+.pondering-steps {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-inline-size: 0;
+    max-width: 100%;
+    max-inline-size: 100%;
+    overflow-x: hidden;
+}
+
+.pondering-step {
+    display: grid;
+    grid-template-columns: 16px minmax(0, 1fr);
+    column-gap: 10px;
+    align-items: start;
+    padding: 5px 0;
+    min-width: 0;
+    min-inline-size: 0;
+    max-width: 100%;
+    max-inline-size: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+/* Agent 看过的画面快照：落在内容列、text 下方，小尺寸缩略图随处理过程内联展现 */
+.step-snapshot {
+    grid-column: 2;
+    display: block;
+    margin-top: 6px;
+    max-width: min(220px, 100%);
+    max-height: 160px;
+    width: auto;
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid var(--de-border, rgba(255, 255, 255, 0.12));
+    object-fit: contain;
+}
+
+/* 节点列：贯穿引导线 + 状态节点圆 */
+.step-node {
+    grid-column: 1;
+    position: relative;
+    align-self: stretch;
+    width: 16px;
+}
+
+.step-node::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+    background: var(--de-border);
+    opacity: 0.55;
+}
+
+.pondering-step:first-child .step-node::before { top: 10px; }
+.pondering-step:last-child .step-node::before { bottom: calc(100% - 10px); }
+.pondering-step:only-child .step-node::before { display: none; }
+
+.step-node::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    width: 7px;
+    height: 7px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    box-sizing: border-box;
+    background: var(--de-bg-card);
+    border: 1.5px solid color-mix(in srgb, var(--de-text-secondary) 60%, transparent);
+    z-index: 1;
+}
+
+/* 思考 / 观察 / 判断 / 说明：空心弱节点 */
+.is-thought .step-node::after {
+    border-color: color-mix(in srgb, var(--de-text-secondary) 55%, transparent);
+    background: var(--de-bg-card);
+}
+
+/* 工具完成：实心中性节点 */
+.is-action.success .step-node::after {
+    background: var(--de-text-secondary);
+    border-color: var(--de-text-secondary);
+}
+
+/* 工具进行中：主题色旋转环 */
+.is-action.running .step-node::after,
+.is-action.pending .step-node::after {
+    border-color: var(--de-primary);
+    border-top-color: transparent;
+    background: var(--de-bg-card);
+    animation: node-spin 0.7s linear infinite;
+}
+
+/* 失败：错误色实心节点 */
+.pondering-step.error .step-node::after {
+    background: var(--de-error);
+    border-color: var(--de-error);
+    animation: none;
+}
+
+@keyframes node-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* 文本列 */
+.step-text {
+    grid-column: 2;
+    min-width: 0;
+    min-inline-size: 0;
+    max-width: 100%;
+    max-inline-size: 100%;
+    color: var(--de-text);
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* ── 三类信息的视觉分型 ──
+   层级：文字输出（正式回复，面板外主色 markdown）＞ 执行（动作）＞ Agent 思考（内部推理）。
+   过程面板整体是「辅助信息」，所以思考用次要灰、执行用动作 chip，二者与正式回复明显分层。 */
+
+/* 执行：操作动作——工具名以轻量「动作 chip」呈现，结构上区别于思考的纯文本叙述 */
+.is-action .step-text {
+    display: inline-block;
+    align-self: start;
+    max-width: 100%;
+    box-sizing: border-box;
+    font-size: 12.5px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--de-text);
+    padding: 2px 9px;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--de-text-secondary) 9%, transparent);
+}
+
+.is-action.running .step-text,
+.is-action.pending .step-text {
+    color: var(--de-text);
+    background: var(--de-primary-dim);
+}
+
+.is-action.success .step-text {
+    color: var(--de-text-secondary);
+    font-weight: 400;
+    background: color-mix(in srgb, var(--de-text-secondary) 7%, transparent);
+}
+
+.is-action.error .step-text {
+    color: var(--de-error);
+    background: color-mix(in srgb, var(--de-error) 10%, transparent);
+}
+
+/* Agent 思考：内部推理叙述——次要灰阶，明显弱于「文字输出」 */
+.pondering-step--reasoning {
+    padding: 6px 0;
+}
+
+.pondering-step--reasoning .step-text {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--de-text-secondary);
+}
+
+/* Agent 观察 / 判断 / 说明：最次要的辅助灰阶 */
+.pondering-step--observation .step-text,
+.pondering-step--decision .step-text,
+.pondering-step--agent .step-text {
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--de-text-secondary);
+    opacity: 0.92;
+}
+
+.pondering-step.running .step-text {
+    color: var(--de-text);
+}
+
+.pondering-step.error .step-text {
+    color: var(--de-error);
+}
+
+/* ── Light 主题 ── */
+[data-theme="light"] .thinking-simple {
+    background: #f8f9fa;
+    border-color: #e9ebef;
+}
+
+[data-theme="light"] .step-node::after,
+[data-theme="light"] .is-action.running .step-node::after,
+[data-theme="light"] .is-action.pending .step-node::after {
+    background: #f8f9fa;
+}
+
+[data-theme="light"] .is-action .step-text {
+    color: #1a1a1a;
+}
+
+[data-theme="light"] .is-action.success .step-text {
+    color: #6b6b6b;
+}
+
+[data-theme="light"] .pondering-step--reasoning .step-text,
+[data-theme="light"] .pondering-step--observation .step-text,
+[data-theme="light"] .pondering-step--decision .step-text,
+[data-theme="light"] .pondering-step--agent .step-text {
+    color: #5f5f5f;
+}

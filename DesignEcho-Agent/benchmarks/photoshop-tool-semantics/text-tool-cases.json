@@ -1,0 +1,256 @@
+{
+  "suite": "photoshop-tool-semantics",
+  "domain": "text-tools",
+  "version": 1,
+  "status": "mvp",
+  "purpose": "为 Photoshop 高频文本工具建立可复核 benchmark 场景，约束 Agent 不把裸工具调用误判为真实设计理解。",
+  "boundaries": [
+    "本文件只定义离线 benchmark 场景，不直接执行 Photoshop。",
+    "本文件不能证明文本工具 live 行为已经通过，只能说明需要验证哪些风险。",
+    "所有 case 都要求可编辑文本层，不接受把文字栅格化成图片作为通过条件。"
+  ],
+  "cases": [
+    {
+      "id": "text-create-multiline-chinese",
+      "name": "创建多行中文说明文本",
+      "coverageTags": ["multiline-chinese", "manual-line-break", "create", "bounds"],
+      "semanticIds": ["text-layer-create", "text-layout-bounds"],
+      "tools": ["createTextLayer", "getLayerBounds", "moveLayer", "getAcceptanceSnapshot"],
+      "scenario": {
+        "userIntent": "帮我在画面左侧创建两行中文卖点说明，保持可编辑文本并对齐参考框。",
+        "designRisk": "模型可能把手动换行合并成一行，或把 createTextLayer 的 x/y 当作视觉外接框左上角。",
+        "expectedUse": "参考图复刻、详情页卖点、说明文本"
+      },
+      "input": {
+        "content": "柔软亲肤\n透气不闷脚",
+        "plannedBox": { "left": 72, "top": 180, "width": 220, "height": 68 },
+        "style": {
+          "fontSize": 28,
+          "fontNamePolicy": "PostScript 名优先；无法确认时必须标记 needs_review",
+          "colorHex": "#111111",
+          "alignment": "left"
+        }
+      },
+      "mustPreserve": ["manualLineBreaks", "chineseCharacters", "editableTextLayer"],
+      "expectedEvidence": ["after text.content", "after layer bounds", "optional overlay bounds"],
+      "passCriteria": ["内容精确匹配并保留 LF 换行", "实际视觉 bounds 与 plannedBox 在阈值内", "输出为 text layer"],
+      "needsReviewCriteria": ["字体 fallback 导致宽度轻微偏差", "只有 bounds 证据，没有截图 overlay"],
+      "failCriteria": ["换行被删除", "文本被栅格化", "缺少 actualBounds 或偏移超过阈值"],
+      "liveValidation": {
+        "required": true,
+        "status": "pending",
+        "notes": "需要在 Photoshop disposable 文档中创建后读取 bounds，再用 moveLayer 校正。"
+      }
+    },
+    {
+      "id": "text-content-punctuation-parameter-label",
+      "name": "参数型文案标点与符号保持",
+      "coverageTags": ["punctuation", "parameter-text", "content-edit", "exactness"],
+      "semanticIds": ["text-content-edit"],
+      "tools": ["setTextContent", "getAcceptanceSnapshot"],
+      "scenario": {
+        "userIntent": "把合格证参数文字改成指定内容，不能改写冒号、斜杠、连字符、百分号。",
+        "designRisk": "模型可能把参数文案润色、翻译或改变符号格式。",
+        "expectedUse": "合格证、SKU 参数、详情页成分/执行标准"
+      },
+      "input": {
+        "updates": [
+          { "content": "成分:棉100%" },
+          { "content": "执行标准:FZ/T73001-2016" },
+          { "content": "安全技术类别:B类可直接接触皮肤" }
+        ]
+      },
+      "mustPreserve": ["colon", "slash", "hyphen", "percent", "latinDigits", "chineseCharacters"],
+      "expectedEvidence": ["before/after text.content", "target layer id list", "diff textChanged count"],
+      "passCriteria": ["所有目标 layer 的 after content 与输入完全一致", "CRLF/CR 只允许归一化为 LF"],
+      "needsReviewCriteria": ["目标来自当前选中图层且多选状态不明确"],
+      "failCriteria": ["任一符号被替换或丢失", "只更新了部分目标", "目标图层不是文本层"],
+      "liveValidation": {
+        "required": true,
+        "status": "pending",
+        "notes": "需要覆盖 setTextContent 单目标与 updates 批量路径。"
+      }
+    },
+    {
+      "id": "text-layout-two-column-certificate",
+      "name": "合格证左右两列文本排版",
+      "coverageTags": ["two-column", "certificate", "layout-bounds", "reference-replication"],
+      "semanticIds": ["text-layer-create", "text-content-edit", "text-layout-bounds"],
+      "tools": ["createTextLayer", "setTextContent", "getLayerBounds", "moveLayer", "getAcceptanceSnapshot"],
+      "scenario": {
+        "userIntent": "照着参考图复刻合格证的左右两列文字结构。",
+        "designRisk": "模型可能只创建文字内容，但列间距、行高、左/右列对齐和标题层级偏离参考。",
+        "expectedUse": "参考图复刻、服饰合格证、吊牌信息"
+      },
+      "input": {
+        "contentBlocks": [
+          { "content": "品牌:FEX", "plannedBox": { "left": 37, "top": 122, "width": 98, "height": 24 }, "column": "left" },
+          { "content": "品名:袜子", "plannedBox": { "left": 302, "top": 122, "width": 100, "height": 24 }, "column": "right" },
+          { "content": "货号:N-W210520", "plannedBox": { "left": 37, "top": 161, "width": 151, "height": 24 }, "column": "left" },
+          { "content": "等级:一等品", "plannedBox": { "left": 302, "top": 161, "width": 117, "height": 24 }, "column": "right" }
+        ],
+        "style": {
+          "fontSize": 24,
+          "fontWeight": "regular-or-medium",
+          "alignment": "left"
+        }
+      },
+      "mustPreserve": ["columnAlignment", "rowBaseline", "editableTextLayer", "exactContent"],
+      "expectedEvidence": ["plannedBox", "actualBounds", "center offset", "edge delta", "after text.content"],
+      "passCriteria": ["每个字段都是独立可编辑文本层", "左列与右列 x 坐标分别稳定", "同行 y 偏差在阈值内"],
+      "needsReviewCriteria": ["宽度差异主要来自字体字形", "bounds-only 通过但缺少 overlay 截图"],
+      "failCriteria": ["左右列被合并成单个文本层", "任一字段内容不匹配", "列位置明显漂移"],
+      "liveValidation": {
+        "required": true,
+        "status": "pending",
+        "notes": "可复用 FEX benchmark，但不能写 FEX 专用硬编码。"
+      }
+    },
+    {
+      "id": "text-style-font-fallback-source-han",
+      "name": "中文字体映射与 fallback 风险",
+      "coverageTags": ["font-fallback", "font-name", "style-edit", "needs-review"],
+      "semanticIds": ["text-style-edit"],
+      "tools": ["resolveFontName", "setTextStyle", "getTextStyle", "getAcceptanceSnapshot", "getLayerBounds"],
+      "scenario": {
+        "userIntent": "把所有文字字体改成思源黑体，如果系统没有该字体，需要明确反馈而不是假装完成。",
+        "designRisk": "用户看到的中文字体名、系统字体名和 Photoshop PostScript 名可能不同，工具可能实际使用 fallback。",
+        "expectedUse": "统一字体、品牌规范、参考图文字复刻"
+      },
+      "input": {
+        "fontName": "思源黑体",
+        "acceptedFontEvidence": ["PostScript 名匹配", "family/name 规范化匹配", "明确 fallback needs_review"],
+        "style": { "fontSize": 28 }
+      },
+      "mustPreserve": ["textContent", "layerTargets", "fontEvidence"],
+      "expectedEvidence": ["after text.fontName", "resolvedFont", "verifiedFont", "font assertion summary"],
+      "passCriteria": ["after 字体字段与解析后的可用字体匹配", "内容未被改变"],
+      "needsReviewCriteria": ["只能规范化匹配", "系统字体列表不可读", "Photoshop 返回 fallback 或 verifiedFont 缺失"],
+      "failCriteria": ["after 字体不匹配", "工具返回成功但字体未变化", "目标图层缺失"],
+      "liveValidation": {
+        "required": true,
+        "status": "pending",
+        "notes": "必须用真实 Photoshop 字体列表验证，不允许硬编码某个中文字体名。"
+      }
+    },
+    {
+      "id": "text-style-missing-font-safe-fail",
+      "name": "缺失字体安全失败与候选建议",
+      "coverageTags": ["font-missing", "font-fallback", "font-name", "style-edit", "safe-fail"],
+      "semanticIds": ["text-style-edit"],
+      "tools": ["resolveFontName", "setTextStyle", "getTextStyle", "getAcceptanceSnapshot"],
+      "scenario": {
+        "userIntent": "把文字改成一个系统里不存在的字体时，需要明确失败或给出候选建议，不能假装已经完成。",
+        "designRisk": "不可用字体如果被直接传给 Photoshop，可能触发超时、fallback 或工具成功但视觉未变化。",
+        "expectedUse": "字体统一、品牌字体检查、参考图复刻前置验证"
+      },
+      "input": {
+        "fontName": "__DesignEcho_Missing_Font_不存在_000000__",
+        "style": { "fontSize": 28 }
+      },
+      "mustPreserve": ["textContent", "existingFont", "editableTextLayer", "failureEvidence"],
+      "expectedEvidence": ["resolveFontName result", "setTextStyle success=false", "after text.content", "after text.fontName"],
+      "passCriteria": ["resolveFontName 不返回 resolvedFont", "setTextStyle 返回失败且带有错误或候选建议", "文本内容未被改变"],
+      "needsReviewCriteria": ["字体列表不可读", "工具失败但缺少候选建议", "after 字体字段无法读取"],
+      "failCriteria": ["工具返回成功但字体未变化", "工具直接超时", "文本内容被意外改变"],
+      "liveValidation": {
+        "required": true,
+        "status": "pending",
+        "notes": "这是防假成功用例：不可用字体必须在写入前被拦截，不能依赖 Photoshop fallback。"
+      }
+    },
+    {
+      "id": "text-style-tracking-leading",
+      "name": "字距与行距样式语义",
+      "coverageTags": ["tracking-leading", "style-edit", "multiline-chinese"],
+      "semanticIds": ["text-style-edit", "text-layout-bounds"],
+      "tools": ["setTextStyle", "getTextStyle", "getLayerBounds", "getAcceptanceSnapshot"],
+      "scenario": {
+        "userIntent": "把这段多行说明的行距调宽一些，字距略微放松，但不要改变内容。",
+        "designRisk": "字距/行距可能被工具忽略，或改变后没有 after 字段证明，导致假成功。",
+        "expectedUse": "详情页正文、品牌说明、海报副标题"
+      },
+      "input": {
+        "content": "高弹包裹\n舒适贴合",
+        "style": {
+          "tracking": 40,
+          "leading": 36,
+          "fontSize": 26
+        },
+        "plannedBox": { "left": 96, "top": 260, "width": 180, "height": 82 }
+      },
+      "mustPreserve": ["textContent", "manualLineBreaks", "editableTextLayer"],
+      "expectedEvidence": ["after text.fontSize", "after text tracking/leading when available", "after layer bounds"],
+      "passCriteria": ["内容和换行不变", "支持的 style 字段有 after 证据", "bounds 变化符合预期"],
+      "needsReviewCriteria": ["tracking/leading 没有可读 after 字段但 bounds 有合理变化"],
+      "failCriteria": ["工具 schema 暴露字段但执行后没有任何变化证据", "内容被改写"],
+      "liveValidation": {
+        "required": true,
+        "status": "pending",
+        "notes": "如果 getTextStyle 无法读回 tracking/leading，应降级为 needs_review，不可直接通过。"
+      }
+    },
+    {
+      "id": "text-create-price-promotion",
+      "name": "价格与促销文案文本层",
+      "coverageTags": ["price-promotion", "punctuation", "create", "visual-hierarchy"],
+      "semanticIds": ["text-layer-create", "text-style-edit", "text-layout-bounds"],
+      "tools": ["createTextLayer", "setTextStyle", "getLayerBounds", "moveLayer", "getAcceptanceSnapshot"],
+      "scenario": {
+        "userIntent": "创建促销价格文案，保留人民币符号、小数点和折扣数字，并让它成为视觉重点。",
+        "designRisk": "模型可能丢失人民币符号、把价格改写成普通文本，或字号层级不足。",
+        "expectedUse": "主图、详情页促销模块、活动海报"
+      },
+      "input": {
+        "content": "¥39.9\n限时2件8折",
+        "plannedBox": { "left": 420, "top": 160, "width": 240, "height": 110 },
+        "style": {
+          "fontSize": 48,
+          "colorHex": "#D93025",
+          "alignment": "left"
+        }
+      },
+      "mustPreserve": ["currencySymbol", "decimalPoint", "discountNumber", "manualLineBreaks"],
+      "expectedEvidence": ["after text.content", "after text.fontSize", "after layer bounds", "visual hierarchy note"],
+      "passCriteria": ["价格符号和数字完全一致", "价格层字号大于说明层", "实际 bounds 与 plannedBox 接近"],
+      "needsReviewCriteria": ["颜色无法读回但内容/字号/bounds 通过", "截图级视觉层级未验证"],
+      "failCriteria": ["价格符号或小数点丢失", "两行被合并", "创建为非文本图层"],
+      "liveValidation": {
+        "required": true,
+        "status": "pending",
+        "notes": "颜色读取能力不足时，只能把颜色作为待复核，不得宣称完整通过。"
+      }
+    },
+    {
+      "id": "text-bounds-baseline-correction",
+      "name": "文本基线与视觉外接框校正",
+      "coverageTags": ["baseline-bounds", "move-correction", "layout-bounds"],
+      "semanticIds": ["text-layer-create", "text-layout-bounds"],
+      "tools": ["createTextLayer", "getLayerBounds", "moveLayer", "getAcceptanceSnapshot"],
+      "scenario": {
+        "userIntent": "把标题放到参考图指定位置，实际看到的文字外接框要对齐目标框。",
+        "designRisk": "Photoshop 文本创建坐标与用户视觉外接框不同，直接按 x/y 创建会整体偏移。",
+        "expectedUse": "参考图复刻、标题排版、按钮文字居中"
+      },
+      "input": {
+        "content": "合格证",
+        "plannedBox": { "left": 160, "top": 42, "width": 142, "height": 47 },
+        "style": {
+          "fontSize": 48,
+          "alignment": "center"
+        },
+        "correctionPolicy": "创建后必须读取 actualBounds；偏差超过阈值时用 moveLayer relative 校正。"
+      },
+      "mustPreserve": ["visualBounds", "centerAlignment", "editableTextLayer"],
+      "expectedEvidence": ["create result layerId", "initial actualBounds", "moveLayer correction", "final actualBounds"],
+      "passCriteria": ["final actualBounds 与 plannedBox 在阈值内", "校正动作有工具证据"],
+      "needsReviewCriteria": ["最终宽度差异疑似来自字体字形", "缺少 overlay 但 bounds 通过"],
+      "failCriteria": ["读取不到 actualBounds", "校正后仍明显偏移", "未创建文本层"],
+      "liveValidation": {
+        "required": true,
+        "status": "pending",
+        "notes": "这是文本复刻核心能力，必须和 FEX live case 联动验证。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>DesignEcho 浏览器助手</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>DesignEcho 浏览器助手</h1>
+    <span id="version" class="version"></span>
+  </header>
+
+  <section class="status-row">
+    <span id="status-dot" class="dot dot-gray"></span>
+    <span id="status-text">读取状态中…</span>
+  </section>
+  <div class="meta">目标：ws://127.0.0.1:<span id="status-port">8769</span>/designecho-browser</div>
+  <div class="meta">已处理请求：<span id="request-count">0</span></div>
+  <div id="last-error" class="error hidden"></div>
+
+  <section class="settings">
+    <label for="port-input">桥端口</label>
+    <input id="port-input" type="number" min="1" max="65535" placeholder="8769">
+    <label for="token-input">Token（可选）</label>
+    <input id="token-input" type="password" placeholder="Agent 未启用 token 时留空">
+    <div class="buttons">
+      <button id="save-button">保存并重连</button>
+      <button id="reconnect-button" class="secondary">重新连接</button>
+    </div>
+    <div id="save-hint" class="hint"></div>
+  </section>
+
+  <footer>只与本机 DesignEcho Agent（127.0.0.1）通信，不访问外部服务器。</footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

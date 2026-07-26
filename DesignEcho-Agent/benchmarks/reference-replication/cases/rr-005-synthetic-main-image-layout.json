@@ -1,0 +1,184 @@
+{
+  "id": "rr-005-synthetic-main-image-layout",
+  "name": "合成主图版式复刻种子",
+  "status": "reference_captured",
+  "referenceImage": {
+    "path": "assets/synthetic-main-image-layout.png",
+    "description": "800x800 合成主图参考图，包含商品容器、大标题和两个利益点胶囊。"
+  },
+  "scenario": {
+    "category": "main-image",
+    "notes": "Synthetic main-image seed；用于补主图布局覆盖，不代表真实平台主图可投放质量。",
+    "source": {
+      "providedBy": "synthetic-fixture",
+      "capturedAt": "2026-05-12",
+      "boundary": "Synthetic benchmark seed for structural validation only; not a real customer design and not evidence of completed design ability."
+    },
+    "canvas": {
+      "width": 800,
+      "height": 800,
+      "background": "#FFFFFF"
+    },
+    "expectedLayout": {
+      "layoutType": "main-image-product-card-callouts",
+      "boundary": "Expected boxes are fixture anchors for parser/executor QA, not proof of visual or aesthetic quality."
+    }
+  },
+  "execution": {
+    "visionModel": "",
+    "logicModel": "",
+    "autoCreateDocument": true,
+    "templateApply": false,
+    "suggestedParams": {
+      "outputWidth": 800,
+      "outputHeight": 800,
+      "visualValidation": "bounds-and-diagnostic-screenshot",
+      "includeOverlaySnapshots": false,
+      "preserveEditableText": true
+    }
+  },
+  "expectedElements": [
+    {
+      "id": "background",
+      "kind": "shape",
+      "role": "background",
+      "expectedBox": {
+        "x": 0,
+        "y": 0,
+        "width": 800,
+        "height": 800
+      }
+    },
+    {
+      "id": "headline",
+      "kind": "text",
+      "role": "headline",
+      "content": "春夏轻薄袜",
+      "expectedBox": {
+        "x": 76,
+        "y": 54,
+        "width": 340,
+        "height": 70
+      }
+    },
+    {
+      "id": "product-card",
+      "kind": "shape",
+      "role": "product-card",
+      "expectedBox": {
+        "x": 120,
+        "y": 180,
+        "width": 560,
+        "height": 396
+      }
+    },
+    {
+      "id": "product-placeholder",
+      "kind": "shape",
+      "role": "product-image",
+      "expectedBox": {
+        "x": 190,
+        "y": 250,
+        "width": 420,
+        "height": 210
+      }
+    },
+    {
+      "id": "left-badge",
+      "kind": "shape",
+      "role": "benefit-badge",
+      "expectedBox": {
+        "x": 74,
+        "y": 632,
+        "width": 300,
+        "height": 74
+      }
+    },
+    {
+      "id": "left-badge-copy",
+      "kind": "text",
+      "role": "benefit-copy",
+      "content": "透气不闷脚",
+      "expectedBox": {
+        "x": 122,
+        "y": 650,
+        "width": 160,
+        "height": 36
+      }
+    },
+    {
+      "id": "right-badge",
+      "kind": "shape",
+      "role": "benefit-badge",
+      "expectedBox": {
+        "x": 484,
+        "y": 632,
+        "width": 230,
+        "height": 74
+      }
+    },
+    {
+      "id": "right-badge-copy",
+      "kind": "text",
+      "role": "benefit-copy",
+      "content": "多色可选",
+      "expectedBox": {
+        "x": 534,
+        "y": 650,
+        "width": 126,
+        "height": 36
+      }
+    }
+  ],
+  "acceptanceCriteria": [
+    "必须保留 1:1 主图画布、商品视觉中心和利益点胶囊。",
+    "标题和利益点文案必须是可编辑文本层。",
+    "该 case 不验证真实商品主体缩放、平台合规或最终转化效果。"
+  ],
+  "outputs": {
+    "documentName": "合成主图版式复刻种子.psd",
+    "resultScreenshot": "",
+    "notes": "未执行真实 Photoshop 复刻前不填写结果截图和评分。"
+  },
+  "score": {
+    "structure": null,
+    "placement": null,
+    "textHierarchy": null,
+    "editability": null,
+    "overall": null
+  },
+  "verification": {
+    "buildVerified": false,
+    "manualVerified": false,
+    "reviewedAt": "",
+    "reviewer": ""
+  },
+  "acceptance": {
+    "requiredEvidence": [
+      "editable-text-layers",
+      "bounds-qa",
+      "screenshot-pixel-probe",
+      "manual-review"
+    ],
+    "mustRemainEditable": true,
+    "boundsQa": {
+      "minOkRatio": 0.78,
+      "maxMismatch": 0,
+      "maxUnverified": 0
+    },
+    "screenshotPixelProbe": {
+      "enabled": true,
+      "targetSize": {
+        "width": 800,
+        "height": 800
+      },
+      "thresholds": {
+        "maxMae": 45,
+        "maxHighDeltaRatio": 0.32,
+        "minDarkJaccard": 0.35
+      },
+      "boundary": "Pixel probe is diagnostic evidence only. It does not prove high-fidelity design quality or aesthetic acceptance.",
+      "rawImagesRedacted": true
+    }
+  }
+}

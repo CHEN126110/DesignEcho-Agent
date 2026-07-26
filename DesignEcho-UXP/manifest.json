@@ -1,0 +1,84 @@
+{
+  "manifestVersion": 6,
+  "id": "com.designecho.photoshop",
+  "name": "DesignEcho",
+  "version": "2.0.0",
+  "main": "dist/runtime.js",
+  "host": {
+    "app": "PS",
+    "minVersion": "26.0.0"
+  },
+  "entrypoints": [
+    {
+      "type": "panel",
+      "id": "mainPanel",
+      "label": {
+        "default": "DesignEcho"
+      },
+      "resizable": true,
+      "minimumSize": {
+        "width": 320,
+        "height": 700
+      },
+      "maximumSize": {
+        "width": 520,
+        "height": 1100
+      },
+      "preferredDockedSize": {
+        "width": 360,
+        "height": 760
+      },
+      "preferredFloatingSize": {
+        "width": 420,
+        "height": 860
+      },
+      "icons": [
+        {
+          "width": 23,
+          "height": 23,
+          "path": "icons/light.png",
+          "scale": [1, 2],
+          "theme": ["darkest", "dark"]
+        },
+        {
+          "width": 23,
+          "height": 23,
+          "path": "icons/dark.png",
+          "scale": [1, 2],
+          "theme": ["lightest", "light"]
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "width": 48,
+      "height": 48,
+      "path": "icons/lightPlugin.png",
+      "scale": [1, 2],
+      "theme": ["darkest", "dark"],
+      "species": ["pluginList"]
+    },
+    {
+      "width": 48,
+      "height": 48,
+      "path": "icons/darkPlugin.png",
+      "scale": [1, 2],
+      "theme": ["lightest", "light"],
+      "species": ["pluginList"]
+    }
+  ],
+  "requiredPermissions": {
+    "network": {
+      "domains": "all"
+    },
+    "webview": {
+      "allow": "yes",
+      "domains": ["http://127.0.0.1:8766", "http://localhost:8766"],
+      "allowLocalRendering": "yes",
+      "enableMessageBridge": "localAndRemote"
+    },
+    "clipboard": "readAndWrite",
+    "localFileSystem": "fullAccess"
+  }
+}

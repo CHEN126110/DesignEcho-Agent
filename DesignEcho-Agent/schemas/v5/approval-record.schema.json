@@ -1,0 +1,56 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://designecho.local/v5/approval-record.schema.json",
+    "title": "ApprovalRecord（所有者 ApprovalService）",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["meta", "payload"],
+    "properties": {
+        "meta": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactMeta" },
+        "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["approvalId", "scope", "subject", "decision", "actor"],
+            "properties": {
+                "approvalId": { "type": "string" },
+                "scope": { "type": "string", "enum": ["preview_selection", "photoshop_sandbox_execution", "current_document_apply"] },
+                "subject": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["projectId", "versionId", "stateRevision", "previewSceneRef", "previewArtifactHash", "reviewReportRef", "reviewReportHash"],
+                    "properties": {
+                        "projectId": { "type": "string" },
+                        "versionId": { "type": "string" },
+                        "stateRevision": { "type": "integer", "minimum": 0 },
+                        "previewSceneRef": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactRef" },
+                        "previewArtifactHash": { "type": "string", "minLength": 1 },
+                        "reviewReportRef": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactRef" },
+                        "reviewReportHash": { "type": "string", "minLength": 1 },
+                        "currentDocumentFingerprint": { "type": "string" }
+                    }
+                },
+                "decision": { "type": "string", "enum": ["approved", "rejected", "revoked", "expired"] },
+                "actor": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["actorType", "actorId"],
+                    "properties": {
+                        "actorType": { "const": "user" },
+                        "actorId": { "type": "string" }
+                    }
+                },
+                "approvedAt": { "type": "string" },
+                "rejectedAt": { "type": "string" },
+                "invalidation": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["invalidatedAt", "reason"],
+                    "properties": {
+                        "invalidatedAt": { "type": "string" },
+                        "reason": { "type": "string", "enum": ["state_revision_changed", "preview_hash_changed", "review_changed", "document_changed", "user_revoked"] }
+                    }
+                }
+            }
+        }
+    }
+}

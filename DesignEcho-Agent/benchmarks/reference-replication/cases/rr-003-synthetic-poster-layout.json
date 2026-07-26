@@ -1,0 +1,185 @@
+{
+  "id": "rr-003-synthetic-poster-layout",
+  "name": "合成海报版式复刻种子",
+  "status": "reference_captured",
+  "referenceImage": {
+    "path": "assets/synthetic-poster-layout.png",
+    "description": "800x1000 合成海报参考图，包含背景氛围、主视觉卡片、标题、副标题、CTA 和角标。"
+  },
+  "scenario": {
+    "category": "poster-layout",
+    "notes": "Synthetic poster seed；用于补非纯文字布局覆盖，不代表真实商业海报质量。",
+    "source": {
+      "providedBy": "synthetic-fixture",
+      "capturedAt": "2026-05-12",
+      "boundary": "Synthetic benchmark seed for structural validation only; not a real customer design and not evidence of completed design ability."
+    },
+    "canvas": {
+      "width": 800,
+      "height": 1000,
+      "background": "#FFFFFF"
+    },
+    "expectedLayout": {
+      "layoutType": "poster-hero-card-with-cta",
+      "boundary": "Expected boxes are fixture anchors for parser/executor QA, not proof of visual or aesthetic quality."
+    }
+  },
+  "execution": {
+    "visionModel": "",
+    "logicModel": "",
+    "autoCreateDocument": true,
+    "templateApply": false,
+    "suggestedParams": {
+      "outputWidth": 800,
+      "outputHeight": 1000,
+      "visualValidation": "bounds-and-diagnostic-screenshot",
+      "includeOverlaySnapshots": false,
+      "preserveEditableText": true
+    }
+  },
+  "expectedElements": [
+    {
+      "id": "background",
+      "kind": "shape",
+      "role": "background",
+      "expectedBox": {
+        "x": 0,
+        "y": 0,
+        "width": 800,
+        "height": 1000
+      }
+    },
+    {
+      "id": "hero-card",
+      "kind": "shape",
+      "role": "image-container",
+      "expectedBox": {
+        "x": 80,
+        "y": 110,
+        "width": 640,
+        "height": 520
+      }
+    },
+    {
+      "id": "product-placeholder",
+      "kind": "shape",
+      "role": "hero-image",
+      "expectedBox": {
+        "x": 122,
+        "y": 164,
+        "width": 556,
+        "height": 328
+      }
+    },
+    {
+      "id": "headline",
+      "kind": "text",
+      "role": "headline",
+      "content": "城市轻行计划",
+      "expectedBox": {
+        "x": 102,
+        "y": 660,
+        "width": 420,
+        "height": 70
+      }
+    },
+    {
+      "id": "subtitle",
+      "kind": "text",
+      "role": "subheadline",
+      "content": "轻量鞋履 · 通勤与周末都自在",
+      "expectedBox": {
+        "x": 106,
+        "y": 744,
+        "width": 430,
+        "height": 34
+      }
+    },
+    {
+      "id": "cta",
+      "kind": "shape",
+      "role": "cta-button",
+      "expectedBox": {
+        "x": 106,
+        "y": 824,
+        "width": 226,
+        "height": 66
+      }
+    },
+    {
+      "id": "cta-text",
+      "kind": "text",
+      "role": "cta-copy",
+      "content": "立即了解",
+      "expectedBox": {
+        "x": 150,
+        "y": 842,
+        "width": 104,
+        "height": 32
+      }
+    },
+    {
+      "id": "season",
+      "kind": "text",
+      "role": "badge-copy",
+      "content": "SPRING 2026",
+      "expectedBox": {
+        "x": 566,
+        "y": 842,
+        "width": 150,
+        "height": 30
+      }
+    }
+  ],
+  "acceptanceCriteria": [
+    "必须拆分为可编辑背景、主视觉容器、标题、副标题和 CTA 元素。",
+    "主视觉卡片、标题区和 CTA 区必须保持垂直层级。",
+    "该 case 只验证非纯文字海报结构，不宣称商业设计美感达标。"
+  ],
+  "outputs": {
+    "documentName": "合成海报版式复刻种子.psd",
+    "resultScreenshot": "",
+    "notes": "未执行真实 Photoshop 复刻前不填写结果截图和评分。"
+  },
+  "score": {
+    "structure": null,
+    "placement": null,
+    "textHierarchy": null,
+    "editability": null,
+    "overall": null
+  },
+  "verification": {
+    "buildVerified": false,
+    "manualVerified": false,
+    "reviewedAt": "",
+    "reviewer": ""
+  },
+  "acceptance": {
+    "requiredEvidence": [
+      "editable-text-layers",
+      "bounds-qa",
+      "screenshot-pixel-probe",
+      "manual-review"
+    ],
+    "mustRemainEditable": true,
+    "boundsQa": {
+      "minOkRatio": 0.78,
+      "maxMismatch": 0,
+      "maxUnverified": 0
+    },
+    "screenshotPixelProbe": {
+      "enabled": true,
+      "targetSize": {
+        "width": 800,
+        "height": 1000
+      },
+      "thresholds": {
+        "maxMae": 45,
+        "maxHighDeltaRatio": 0.32,
+        "minDarkJaccard": 0.35
+      },
+      "boundary": "Pixel probe is diagnostic evidence only. It does not prove high-fidelity design quality or aesthetic acceptance.",
+      "rawImagesRedacted": true
+    }
+  }
+}

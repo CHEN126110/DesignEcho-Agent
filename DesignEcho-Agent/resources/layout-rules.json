@@ -1,0 +1,120 @@
+{
+  "version": "1.0.0",
+  "description": "袜子电商布局规则 - 定义不同设计类型的最佳比例",
+  
+  "designTypes": {
+    "mainImage": {
+      "name": "主图",
+      "description": "淘宝/天猫商品主图，800x800 正方形",
+      "canvasSize": { "width": 800, "height": 800 },
+      "productRatio": {
+        "min": 0.55,
+        "optimal": 0.65,
+        "max": 0.75,
+        "description": "产品高度占画布高度的比例"
+      },
+      "position": {
+        "vertical": "center",
+        "horizontalOffset": 0,
+        "verticalOffset": -0.05,
+        "description": "产品略偏上，视觉重心更稳"
+      },
+      "rules": [
+        "产品不宜过大（显得廉价）",
+        "产品不宜过小（看不清细节）",
+        "保留足够留白用于文案"
+      ]
+    },
+    
+    "detailHero": {
+      "name": "详情页首屏",
+      "description": "详情页第一屏，790x宽度，高度可变",
+      "canvasSize": { "width": 790, "height": 1000 },
+      "productRatio": {
+        "min": 0.40,
+        "optimal": 0.50,
+        "max": 0.60,
+        "description": "产品占首屏的比例"
+      },
+      "position": {
+        "vertical": "bottom-third",
+        "description": "产品在下三分之一，上方留给文案"
+      },
+      "rules": [
+        "上方 40% 区域用于营销文案",
+        "产品作为视觉支撑在下方"
+      ]
+    },
+    
+    "skuImage": {
+      "name": "SKU选项图",
+      "description": "颜色/规格选择小图，通常 480x480 或更小",
+      "canvasSize": { "width": 480, "height": 480 },
+      "productRatio": {
+        "min": 0.70,
+        "optimal": 0.80,
+        "max": 0.90,
+        "description": "SKU图需要产品更大更清晰"
+      },
+      "position": {
+        "vertical": "center",
+        "horizontalOffset": 0
+      },
+      "rules": [
+        "SKU图以产品为主",
+        "最小化背景和装饰",
+        "确保颜色准确可辨"
+      ]
+    },
+    
+    "colorShowcase": {
+      "name": "颜色展示区",
+      "description": "详情页中的多色展示区域",
+      "productRatio": {
+        "min": 0.15,
+        "optimal": 0.20,
+        "max": 0.25,
+        "description": "单个产品在展示区的比例（多个产品排列）"
+      },
+      "arrangement": {
+        "type": "grid",
+        "columns": [3, 4, 5],
+        "spacing": 20,
+        "description": "根据颜色数量选择列数"
+      },
+      "rules": [
+        "所有袜子保持相同大小",
+        "均匀排列，间距一致",
+        "形态统一是关键"
+      ]
+    }
+  },
+  
+  "goldenRules": {
+    "goldenRatio": 1.618,
+    "thirdRule": 0.333,
+    "visualCenter": {
+      "description": "视觉中心略高于几何中心",
+      "offset": -0.05
+    },
+    "minimumMargin": {
+      "description": "产品边缘到画布边缘的最小距离",
+      "ratio": 0.05
+    }
+  },
+  
+  "sockSpecific": {
+    "description": "袜子类目特定规则",
+    "aspectRatio": {
+      "boat": { "width": 1, "height": 0.6, "description": "船袜较矮" },
+      "ankle": { "width": 1, "height": 0.8, "description": "短袜" },
+      "crew": { "width": 1, "height": 1.2, "description": "中筒袜" },
+      "calf": { "width": 1, "height": 1.8, "description": "小腿袜" },
+      "knee": { "width": 1, "height": 2.5, "description": "长筒袜" }
+    },
+    "displayAngle": {
+      "preferred": "45-degree-side",
+      "alternatives": ["flat-lay", "front-view", "worn"]
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://designecho.local/v5/preview-scene.schema.json",
+    "title": "PreviewScene（所有者 E1）",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["meta", "payload"],
+    "properties": {
+        "meta": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactMeta" },
+        "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["planRef", "versionId", "sceneType", "renderTarget", "screens", "assetRefs", "artifacts", "renderStatus", "warnings"],
+            "properties": {
+                "planRef": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactRef" },
+                "versionId": { "type": "string" },
+                "sceneType": { "type": "string", "enum": ["detail_page_storyboard", "main_image_variant", "sku_card"] },
+                "renderTarget": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["width", "height", "pixelRatio", "background"],
+                    "properties": {
+                        "width": { "type": "number", "exclusiveMinimum": 0 },
+                        "height": { "type": "number", "exclusiveMinimum": 0 },
+                        "pixelRatio": { "type": "number", "exclusiveMinimum": 0 },
+                        "background": { "type": "string" }
+                    }
+                },
+                "screens": { "type": "array", "items": { "$ref": "#/$defs/previewScreen" } },
+                "assetRefs": { "type": "array", "items": { "type": "string" } },
+                "artifacts": { "type": "array", "items": { "$ref": "#/$defs/previewArtifact" } },
+                "renderStatus": { "type": "string", "enum": ["rendered", "failed"] },
+                "warnings": { "type": "array", "items": { "type": "string" } }
+            }
+        }
+    },
+    "$defs": {
+        "boundsPx": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["x", "y", "width", "height"],
+            "properties": {
+                "x": { "type": "number" },
+                "y": { "type": "number" },
+                "width": { "type": "number" },
+                "height": { "type": "number" }
+            }
+        },
+        "previewNode": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["nodeId", "nodeType", "role", "boundsPx", "zIndex", "visible", "styleTokenRefs"],
+            "properties": {
+                "nodeId": { "type": "string" },
+                "nodeType": { "type": "string", "enum": ["text", "image", "shape", "icon", "group"] },
+                "role": { "type": "string" },
+                "boundsPx": { "$ref": "#/$defs/boundsPx" },
+                "zIndex": { "type": "integer" },
+                "visible": { "type": "boolean" },
+                "content": { "type": "string" },
+                "assetId": { "type": "string" },
+                "styleTokenRefs": { "type": "array", "items": { "type": "string" } }
+            }
+        },
+        "previewScreen": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["screenId", "order", "boundsPx", "groups"],
+            "properties": {
+                "screenId": { "type": "string" },
+                "order": { "type": "integer", "minimum": 0 },
+                "boundsPx": { "$ref": "#/$defs/boundsPx" },
+                "groups": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["copy", "elements", "images"],
+                    "properties": {
+                        "copy": { "type": "array", "items": { "$ref": "#/$defs/previewNode" } },
+                        "elements": { "type": "array", "items": { "$ref": "#/$defs/previewNode" } },
+                        "images": { "type": "array", "items": { "$ref": "#/$defs/previewNode" } }
+                    }
+                }
+            }
+        },
+        "previewArtifact": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["artifactType", "path", "sha256", "width", "height"],
+            "properties": {
+                "artifactType": { "type": "string", "enum": ["storyboard_png", "screen_png", "main_preview_png"] },
+                "path": { "type": "string" },
+                "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+                "width": { "type": "number", "exclusiveMinimum": 0 },
+                "height": { "type": "number", "exclusiveMinimum": 0 }
+            }
+        }
+    }
+}

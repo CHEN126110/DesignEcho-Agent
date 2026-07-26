@@ -1,0 +1,212 @@
+{
+  "id": "rr-002-neutral-quality-card-text-layout",
+  "name": "中性品质检验卡文本排版复刻",
+  "status": "reference_captured",
+  "referenceImage": {
+    "path": "assets/neutral-quality-card-text-layout.png",
+    "description": "600x420 白底黑字品质检验卡。用于替代品牌样例，验证标题、左右字段和多行说明的基础文本排版。"
+  },
+  "scenario": {
+    "category": "certificate-text-layout",
+    "notes": "中性 synthetic fixture；只用于基础文本排版验证，避免继续把具体品牌样例纳入主线。",
+    "source": {
+      "providedBy": "synthetic-fixture",
+      "capturedAt": "2026-05-12",
+      "boundary": "Synthetic benchmark seed for structural validation only; not a real customer design and not evidence of completed design ability."
+    },
+    "canvas": {
+      "width": 600,
+      "height": 420,
+      "background": "#FFFFFF"
+    },
+    "expectedLayout": {
+      "layoutType": "neutral-quality-card-text-layout",
+      "boundary": "Expected boxes are fixture anchors for parser/executor QA, not proof of visual or aesthetic quality."
+    }
+  },
+  "execution": {
+    "visionModel": "",
+    "logicModel": "",
+    "autoCreateDocument": true,
+    "templateApply": false,
+    "suggestedParams": {
+      "outputWidth": 600,
+      "outputHeight": 420,
+      "visualValidation": "bounds-and-diagnostic-screenshot",
+      "includeOverlaySnapshots": false,
+      "preserveEditableText": true
+    }
+  },
+  "expectedElements": [
+    {
+      "id": "title",
+      "kind": "text",
+      "role": "headline",
+      "content": "品质检验卡",
+      "expectedBox": {
+        "x": 184,
+        "y": 38,
+        "width": 232,
+        "height": 48
+      },
+      "alignment": "center",
+      "fontWeight": "bold"
+    },
+    {
+      "id": "category",
+      "kind": "text",
+      "role": "supporting-copy",
+      "content": "品类:针织袜",
+      "expectedBox": {
+        "x": 52,
+        "y": 110,
+        "width": 138,
+        "height": 28
+      },
+      "alignment": "left-column"
+    },
+    {
+      "id": "grade",
+      "kind": "text",
+      "role": "supporting-copy",
+      "content": "等级:合格品",
+      "expectedBox": {
+        "x": 350,
+        "y": 110,
+        "width": 138,
+        "height": 28
+      },
+      "alignment": "right-column"
+    },
+    {
+      "id": "style-no",
+      "kind": "text",
+      "role": "supporting-copy",
+      "content": "货号:Q-2026-0512",
+      "expectedBox": {
+        "x": 52,
+        "y": 150,
+        "width": 218,
+        "height": 28
+      },
+      "alignment": "left-column"
+    },
+    {
+      "id": "color",
+      "kind": "text",
+      "role": "supporting-copy",
+      "content": "颜色:自然白",
+      "expectedBox": {
+        "x": 350,
+        "y": 150,
+        "width": 138,
+        "height": 28
+      },
+      "alignment": "right-column"
+    },
+    {
+      "id": "material",
+      "kind": "text",
+      "role": "supporting-copy",
+      "content": "成分:棉80% 锦纶17% 氨纶3%",
+      "expectedBox": {
+        "x": 52,
+        "y": 206,
+        "width": 360,
+        "height": 28
+      },
+      "alignment": "left-column"
+    },
+    {
+      "id": "standard",
+      "kind": "text",
+      "role": "supporting-copy",
+      "content": "执行标准:FZ/T73001-2016",
+      "expectedBox": {
+        "x": 52,
+        "y": 248,
+        "width": 320,
+        "height": 28
+      },
+      "alignment": "left-column"
+    },
+    {
+      "id": "safety",
+      "kind": "text",
+      "role": "supporting-copy",
+      "content": "安全类别:B类可直接接触皮肤",
+      "expectedBox": {
+        "x": 52,
+        "y": 290,
+        "width": 360,
+        "height": 28
+      },
+      "alignment": "left-column"
+    },
+    {
+      "id": "inspector",
+      "kind": "text",
+      "role": "supporting-copy",
+      "content": "检验员:028",
+      "expectedBox": {
+        "x": 52,
+        "y": 332,
+        "width": 126,
+        "height": 28
+      },
+      "alignment": "left-column"
+    }
+  ],
+  "acceptanceCriteria": [
+    "必须创建可编辑文本层，而不是把参考图作为整图贴入。",
+    "标题需要保持居中且层级高于正文。",
+    "左右字段列需要保持左右分区和行距。",
+    "该 case 只验证基础文本排版，不验证图片、复杂样式或审美创意。"
+  ],
+  "outputs": {
+    "documentName": "中性品质检验卡文本排版复刻.psd",
+    "resultScreenshot": "",
+    "notes": "未执行真实 Photoshop 复刻前不填写结果截图和评分。"
+  },
+  "score": {
+    "structure": null,
+    "placement": null,
+    "textHierarchy": null,
+    "editability": null,
+    "overall": null
+  },
+  "verification": {
+    "buildVerified": false,
+    "manualVerified": false,
+    "reviewedAt": "",
+    "reviewer": ""
+  },
+  "acceptance": {
+    "requiredEvidence": [
+      "editable-text-layers",
+      "bounds-qa",
+      "screenshot-pixel-probe",
+      "manual-review"
+    ],
+    "mustRemainEditable": true,
+    "boundsQa": {
+      "minOkRatio": 0.78,
+      "maxMismatch": 0,
+      "maxUnverified": 0
+    },
+    "screenshotPixelProbe": {
+      "enabled": true,
+      "targetSize": {
+        "width": 600,
+        "height": 420
+      },
+      "thresholds": {
+        "maxMae": 45,
+        "maxHighDeltaRatio": 0.32,
+        "minDarkJaccard": 0.35
+      },
+      "boundary": "Pixel probe is diagnostic evidence only. It does not prove high-fidelity design quality or aesthetic acceptance.",
+      "rawImagesRedacted": true
+    }
+  }
+}

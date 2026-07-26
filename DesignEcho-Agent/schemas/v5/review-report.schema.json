@@ -1,0 +1,83 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://designecho.local/v5/review-report.schema.json",
+    "title": "ReviewReport（所有者 R5）",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["meta", "payload"],
+    "properties": {
+        "meta": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactMeta" },
+        "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "subjectRef",
+                "planRef",
+                "strategyRef",
+                "rubricVersion",
+                "dimensions",
+                "issues",
+                "overallScore",
+                "gateStatus",
+                "requiredFixes",
+                "suggestedFixes",
+                "qualityPassed"
+            ],
+            "properties": {
+                "subjectRef": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactRef" },
+                "planRef": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactRef" },
+                "strategyRef": { "$ref": "https://designecho.local/v5/common-definitions.schema.json#/$defs/artifactRef" },
+                "rubricVersion": { "type": "string" },
+                "dimensions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["dimension", "score", "weight", "rationale"],
+                        "properties": {
+                            "dimension": {
+                                "type": "string",
+                                "enum": ["brief_alignment", "message_clarity", "visual_hierarchy", "asset_integrity", "brand_consistency", "commercial_effectiveness", "implementation_feasibility"]
+                            },
+                            "score": { "type": "number", "minimum": 0, "maximum": 100 },
+                            "weight": { "type": "number" },
+                            "rationale": { "type": "string" }
+                        }
+                    }
+                },
+                "issues": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["issueId", "severity", "owner", "targetArtifactId", "description", "expectedFix", "checkRefs"],
+                        "properties": {
+                            "issueId": { "type": "string" },
+                            "severity": { "type": "string", "enum": ["blocker", "major", "minor"] },
+                            "owner": { "type": "string", "enum": ["R1", "R2", "R3", "R4", "E1"] },
+                            "targetArtifactId": { "type": "string" },
+                            "targetPath": { "type": "string" },
+                            "description": { "type": "string" },
+                            "expectedFix": { "type": "string" },
+                            "checkRefs": { "type": "array", "items": { "type": "string" } }
+                        }
+                    }
+                },
+                "overallScore": { "type": "number", "minimum": 0, "maximum": 100 },
+                "gateStatus": { "type": "string", "enum": ["failed", "passed_for_user_review"] },
+                "requiredFixes": { "type": "array", "items": { "type": "string" } },
+                "suggestedFixes": { "type": "array", "items": { "type": "string" } },
+                "rollbackTarget": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["runtimeUnit", "reason"],
+                    "properties": {
+                        "runtimeUnit": { "type": "string", "enum": ["R1", "R2", "R3", "R4", "E1"] },
+                        "reason": { "type": "string" }
+                    }
+                },
+                "qualityPassed": { "type": "boolean" }
+            }
+        }
+    }
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-agent.local/schemas/runtime-component.schema.json",
+  "title": "Runtime Component",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "component_id",
+    "component_type",
+    "display_name",
+    "logical_roles",
+    "read_scopes",
+    "write_scopes",
+    "dependencies"
+  ],
+  "properties": {
+    "component_id": {
+      "type": "string",
+      "pattern": "^(R[0-5]|E[1-2]|MR|SR|TR|PS|KS|RR|PR)$"
+    },
+    "component_type": {
+      "enum": [
+        "reasoning_agent",
+        "executor_service",
+        "system_service"
+      ]
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "logical_roles": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^A[0-9]$"
+      },
+      "uniqueItems": true
+    },
+    "model_profiles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "read_scopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "write_scopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "forbidden_dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "max_retries": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "output_schema": {
+      "type": "string"
+    }
+  }
+}

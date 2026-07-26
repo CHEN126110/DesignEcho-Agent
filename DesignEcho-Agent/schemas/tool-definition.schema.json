@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-agent.local/schemas/tool-definition.schema.json",
+  "title": "Tool Definition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tool_id",
+    "namespace",
+    "description",
+    "risk_level",
+    "allowed_contexts",
+    "requires_confirmation",
+    "input_schema_ref",
+    "output_schema_ref",
+    "adapter",
+    "timeout_ms",
+    "audit_policy"
+  ],
+  "properties": {
+    "tool_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_.-]+$"
+    },
+    "namespace": {
+      "type": "string",
+      "pattern": "^[a-z0-9_.-]+$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "risk_level": {
+      "enum": [
+        "L1_READ",
+        "L2_SANDBOX_WRITE",
+        "L3_USER_DOC_WRITE",
+        "L4_FORBIDDEN"
+      ]
+    },
+    "allowed_contexts": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "desktop",
+          "read",
+          "sandbox",
+          "current_document_confirmed"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "requires_confirmation": {
+      "type": "boolean"
+    },
+    "input_schema_ref": {
+      "type": "string"
+    },
+    "output_schema_ref": {
+      "type": "string"
+    },
+    "adapter": {
+      "type": "string"
+    },
+    "timeout_ms": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "idempotency_policy": {
+      "enum": [
+        "idempotent",
+        "idempotency_key_required",
+        "not_idempotent"
+      ]
+    },
+    "error_mapping_ref": {
+      "type": "string"
+    },
+    "audit_policy": {
+      "enum": [
+        "none",
+        "metadata",
+        "full_without_sensitive_payload"
+      ]
+    },
+    "enabled": {
+      "type": "boolean"
+    }
+  }
+}

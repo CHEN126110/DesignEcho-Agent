@@ -1,0 +1,208 @@
+{
+  "id": "rr-004-synthetic-ecommerce-detail-hero",
+  "name": "合成详情页首屏复刻种子",
+  "status": "reference_captured",
+  "referenceImage": {
+    "path": "assets/synthetic-ecommerce-detail-hero.png",
+    "description": "790x1200 合成电商详情页首屏参考图，包含产品图片区、标题、副标题、卖点卡片和深色说明条。"
+  },
+  "scenario": {
+    "category": "ecommerce-detail",
+    "notes": "Synthetic ecommerce-detail seed；用于补详情页模块覆盖，不代表真实详情页质量。",
+    "source": {
+      "providedBy": "synthetic-fixture",
+      "capturedAt": "2026-05-12",
+      "boundary": "Synthetic benchmark seed for structural validation only; not a real customer design and not evidence of completed design ability."
+    },
+    "canvas": {
+      "width": 790,
+      "height": 1200,
+      "background": "#FFFFFF"
+    },
+    "expectedLayout": {
+      "layoutType": "detail-hero-benefit-cards",
+      "boundary": "Expected boxes are fixture anchors for parser/executor QA, not proof of visual or aesthetic quality."
+    }
+  },
+  "execution": {
+    "visionModel": "",
+    "logicModel": "",
+    "autoCreateDocument": true,
+    "templateApply": false,
+    "suggestedParams": {
+      "outputWidth": 790,
+      "outputHeight": 1200,
+      "visualValidation": "bounds-and-diagnostic-screenshot",
+      "includeOverlaySnapshots": false,
+      "preserveEditableText": true
+    }
+  },
+  "expectedElements": [
+    {
+      "id": "hero-section",
+      "kind": "shape",
+      "role": "hero-image-container",
+      "expectedBox": {
+        "x": 50,
+        "y": 70,
+        "width": 690,
+        "height": 420
+      }
+    },
+    {
+      "id": "product-placeholder",
+      "kind": "shape",
+      "role": "product-image",
+      "expectedBox": {
+        "x": 98,
+        "y": 116,
+        "width": 594,
+        "height": 300
+      }
+    },
+    {
+      "id": "headline",
+      "kind": "text",
+      "role": "headline",
+      "content": "轻薄透气，日常久穿不闷脚",
+      "expectedBox": {
+        "x": 70,
+        "y": 540,
+        "width": 650,
+        "height": 58
+      }
+    },
+    {
+      "id": "subheadline",
+      "kind": "text",
+      "role": "subheadline",
+      "content": "细密条纹针织，贴合脚背线条",
+      "expectedBox": {
+        "x": 74,
+        "y": 620,
+        "width": 460,
+        "height": 38
+      }
+    },
+    {
+      "id": "benefit-card-left",
+      "kind": "shape",
+      "role": "benefit-card",
+      "expectedBox": {
+        "x": 68,
+        "y": 728,
+        "width": 300,
+        "height": 150
+      }
+    },
+    {
+      "id": "benefit-card-right",
+      "kind": "shape",
+      "role": "benefit-card",
+      "expectedBox": {
+        "x": 422,
+        "y": 728,
+        "width": 300,
+        "height": 150
+      }
+    },
+    {
+      "id": "benefit-left-title",
+      "kind": "text",
+      "role": "benefit-title",
+      "content": "柔软贴合",
+      "expectedBox": {
+        "x": 104,
+        "y": 760,
+        "width": 130,
+        "height": 40
+      }
+    },
+    {
+      "id": "benefit-right-title",
+      "kind": "text",
+      "role": "benefit-title",
+      "content": "清爽透气",
+      "expectedBox": {
+        "x": 458,
+        "y": 760,
+        "width": 130,
+        "height": 40
+      }
+    },
+    {
+      "id": "bottom-banner",
+      "kind": "shape",
+      "role": "summary-banner",
+      "expectedBox": {
+        "x": 70,
+        "y": 946,
+        "width": 650,
+        "height": 126
+      }
+    },
+    {
+      "id": "bottom-copy",
+      "kind": "text",
+      "role": "summary-copy",
+      "content": "适合通勤、散步、居家等多场景",
+      "expectedBox": {
+        "x": 118,
+        "y": 990,
+        "width": 460,
+        "height": 38
+      }
+    }
+  ],
+  "acceptanceCriteria": [
+    "必须保留详情页竖向层级：主视觉、标题、副标题、卖点卡片、底部说明。",
+    "图片容器、卖点卡片和文案必须是可编辑结构。",
+    "该 case 不验证真实商品图选图、抠图或高级设计审美。"
+  ],
+  "outputs": {
+    "documentName": "合成详情页首屏复刻种子.psd",
+    "resultScreenshot": "",
+    "notes": "未执行真实 Photoshop 复刻前不填写结果截图和评分。"
+  },
+  "score": {
+    "structure": null,
+    "placement": null,
+    "textHierarchy": null,
+    "editability": null,
+    "overall": null
+  },
+  "verification": {
+    "buildVerified": false,
+    "manualVerified": false,
+    "reviewedAt": "",
+    "reviewer": ""
+  },
+  "acceptance": {
+    "requiredEvidence": [
+      "editable-text-layers",
+      "bounds-qa",
+      "screenshot-pixel-probe",
+      "manual-review"
+    ],
+    "mustRemainEditable": true,
+    "boundsQa": {
+      "minOkRatio": 0.78,
+      "maxMismatch": 0,
+      "maxUnverified": 0
+    },
+    "screenshotPixelProbe": {
+      "enabled": true,
+      "targetSize": {
+        "width": 790,
+        "height": 1200
+      },
+      "thresholds": {
+        "maxMae": 45,
+        "maxHighDeltaRatio": 0.32,
+        "minDarkJaccard": 0.35
+      },
+      "boundary": "Pixel probe is diagnostic evidence only. It does not prove high-fidelity design quality or aesthetic acceptance.",
+      "rawImagesRedacted": true
+    }
+  }
+}
