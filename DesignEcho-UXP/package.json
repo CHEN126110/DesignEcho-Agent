@@ -71,7 +71,7 @@
     "smoke:canvas-layer-write-tools-guard": "node scripts/smoke-canvas-layer-write-tools-guard.cjs"
   },
   "devDependencies": {
-    "@types/node": "^20.10.0",
+    "@types/node": "^26.1.1",
     "css-loader": "^6.8.1",
     "style-loader": "^3.3.3",
     "ts-loader": "^9.5.1",
