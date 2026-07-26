@@ -17,8 +17,8 @@ jobs:
     name: Public repository safety
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
       - run: node scripts/check-public-repo-safety.cjs
@@ -30,8 +30,8 @@ jobs:
       run:
         working-directory: DesignEcho-Agent
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: npm
@@ -50,8 +50,8 @@ jobs:
       run:
         working-directory: DesignEcho-UXP
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: npm
@@ -63,8 +63,8 @@ jobs:
     name: Browser extension manifest
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
       - run: node -e "JSON.parse(require('fs').readFileSync('DesignEcho-Browser-Extension/manifest.json','utf8')); console.log('manifest valid')"
